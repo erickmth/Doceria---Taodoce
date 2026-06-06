@@ -8,7 +8,8 @@
   <link rel="icon" type="image/png" href="/static/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
-    /* ===== RESET E VARIÁVEIS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -22,7 +23,6 @@
     a { text-decoration: none; color: inherit; }
     button { cursor: pointer; border: none; background: none; font-family: inherit; }
 
-    /* ===== VARIÁVEIS ===== */
     :root {
       --rosa: #E8657A;
       --rosa-dark: #D44D63;
@@ -41,13 +41,8 @@
       --trans: 0.25s ease;
     }
 
-    /* ===== TYPOGRAPHY ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
-
-    /* ===== CONTAINER ===== */
     .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; width: 100%; }
 
-    /* ===== BOTÕES ===== */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -67,7 +62,6 @@
     .btn-ghost { color: var(--texto-sec); padding: 8px 16px; }
     .btn-ghost:hover { color: var(--rosa); }
 
-    /* ===== SECTION LABELS ===== */
     .section-label {
       font-size: 0.78rem;
       font-weight: 600;
@@ -92,7 +86,7 @@
       font-weight: 600;
     }
 
-    /* ===== NAVBAR ===== */
+    /* Navbar */
     #navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -178,7 +172,7 @@
     #mobile-nav a { font-size: 1rem; padding: 8px 0; border-bottom: 1px solid var(--borda); }
     #cart-btn-mobile { width: 100%; justify-content: center; }
 
-    /* ===== HERO ===== */
+    /* Hero */
     #hero {
       min-height: 100vh;
       display: flex;
@@ -194,12 +188,6 @@
       padding: 60px 0;
     }
     .hero-logo-img { max-width: 320px; height: auto; margin-bottom: 24px; }
-    .hero-title {
-      font-family: var(--ff-titulo);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      margin-bottom: 20px;
-    }
-    .hero-title em { color: var(--rosa); font-style: italic; }
     .hero-sub {
       font-size: 1rem;
       color: var(--texto-sec);
@@ -214,6 +202,7 @@
       overflow: hidden;
     }
     .hero-img-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image-wrap { position: relative; }
     .hero-badge {
       position: absolute;
       bottom: 24px;
@@ -224,11 +213,10 @@
       padding: 12px 18px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
-    .hero-image-wrap { position: relative; }
     .hero-badge-label { font-size: 0.7rem; color: var(--texto-sec); text-transform: uppercase; }
     .hero-badge-val { font-family: var(--ff-titulo); font-size: 1.3rem; color: var(--rosa); font-weight: 600; }
 
-    /* ===== DESTAQUES ===== */
+    /* Destaques */
     #destaques { padding: 80px 0; background: white; }
     .destaques-header { text-align: center; margin-bottom: 48px; }
     .destaques-header .section-label { justify-content: center; margin-bottom: 12px; }
@@ -257,7 +245,7 @@
     .destaque-titulo { font-family: var(--ff-titulo); font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
     .destaque-desc { font-size: 0.85rem; color: var(--texto-sec); line-height: 1.6; }
 
-    /* ===== CATÁLOGO ===== */
+    /* Catálogo */
     #catalogo { padding: 80px 0; background: var(--creme); }
     .catalogo-header {
       display: flex;
@@ -325,7 +313,7 @@
     }
     .add-btn:hover { background: var(--rosa-dark); transform: scale(1.08); }
 
-    /* ===== SOBRE ===== */
+    /* Sobre */
     #sobre { padding: 80px 0; background: white; }
     .sobre-inner {
       display: grid;
@@ -355,7 +343,7 @@
     }
     .valor-icon { font-weight: 600; color: var(--rosa); margin-bottom: 6px; font-size: 0.85rem; }
 
-    /* ===== CONTATO ===== */
+    /* Contato */
     #contato { padding: 80px 0; background: var(--creme); }
     .contato-inner {
       display: grid;
@@ -385,7 +373,7 @@
     .contato-card h3 { font-family: var(--ff-titulo); font-size: 1.2rem; margin-bottom: 8px; }
     .contato-card p { font-size: 0.85rem; color: var(--texto-sec); margin-bottom: 24px; }
 
-    /* ===== FOOTER ===== */
+    /* Footer */
     footer {
       background: #2D1F1F;
       color: rgba(255,255,255,0.7);
@@ -404,7 +392,7 @@
     .footer-links a:hover { color: var(--rosa-claro); }
     .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-    /* ===== CARRINHO DRAWER ===== */
+    /* Carrinho */
     #cart-overlay {
       position: fixed;
       inset: 0;
@@ -540,7 +528,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Responsivo */
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .nav-links, .nav-right-desktop { display: none; }
@@ -696,19 +683,19 @@
         <div class="contato-info">
           <div class="info-item">
             <div class="info-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg></div>
-            <div><div class="info-label">WhatsApp</div><div class="info-val" id="info-whatsapp">Carregando…</div></div>
+            <div><div class="info-label">WhatsApp</div><div class="info-val" id="info-whatsapp">+55 11 97038-8250</div></div>
           </div>
           <div class="info-item">
             <div class="info-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/><path d="M12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/></svg></div>
-            <div><div class="info-label">Instagram</div><div class="info-val" id="info-instagram">Carregando…</div></div>
+            <div><div class="info-label">Instagram</div><div class="info-val" id="info-instagram">@taodocequeella</div></div>
           </div>
           <div class="info-item">
             <div class="info-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-            <div><div class="info-label">Delivery</div><div class="info-val" id="info-endereco">Carregando…</div></div>
+            <div><div class="info-label">Delivery</div><div class="info-val" id="info-endereco">Entregamos via WhatsApp</div></div>
           </div>
           <div class="info-item">
             <div class="info-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-            <div><div class="info-label">Horário</div><div class="info-val" id="info-horario">Carregando…</div></div>
+            <div><div class="info-label">Horário</div><div class="info-val" id="info-horario">Seg a Dom: 10h às 22h</div></div>
           </div>
         </div>
       </div>
@@ -772,8 +759,10 @@
   const API = 'https://banco.pythonanywhere.com';
   let produtos = [];
   let carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-  let configs = { whatsapp: '', instagram: '', endereco: '', horario: '' };
   let categoriaAtiva = 'todos';
+
+  // NÚMERO DO WHATSAPP PADRÃO
+  const WHATSAPP_NUMERO = '5511970388250';
 
   function showToast(msg, type) {
     const container = document.getElementById('toast-container');
@@ -864,6 +853,46 @@
     document.body.style.overflow = '';
   }
 
+  // FUNÇÃO DO WHATSAPP - REDIRECIONA PARA O NÚMERO PADRÃO
+  document.getElementById('btn-pedido')?.addEventListener('click', function() {
+    const nome = document.getElementById('cliente-nome').value.trim();
+    const obs = document.getElementById('cliente-obs').value.trim();
+    
+    if (!nome) {
+      showToast('Por favor, informe seu nome', 'error');
+      return;
+    }
+    
+    if (!carrinho.length) {
+      showToast('Seu carrinho está vazio', 'error');
+      return;
+    }
+    
+    let mensagem = `*PEDIDO - Tão Doce Quanto Ella*%0A%0A`;
+    mensagem += `*Cliente:* ${nome}%0A`;
+    if (obs) mensagem += `*Observações:* ${obs}%0A%0A`;
+    mensagem += `*ITENS:*%0A`;
+    
+    let total = 0;
+    for (let item of carrinho) {
+      const subtotal = item.preco * item.quantidade;
+      total += subtotal;
+      mensagem += `- ${item.quantidade}x ${item.nome} = R$ ${subtotal.toFixed(2).replace('.',',')}%0A`;
+    }
+    mensagem += `%0A*TOTAL: R$ ${total.toFixed(2).replace('.',',')}*%0A%0A`;
+    mensagem += `*Entrega via WhatsApp*`;
+    
+    // Usando o número padrão
+    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`;
+    window.open(url, '_blank');
+    
+    carrinho = [];
+    atualizarCarrinhoContador();
+    atualizarCarrinhoModal();
+    closeCart();
+    showToast('Pedido enviado! Você será redirecionado ao WhatsApp.', 'success');
+  });
+
   async function carregarProdutos() {
     const grid = document.getElementById('produtos-grid');
     try {
@@ -924,63 +953,6 @@
     grid.innerHTML = html;
   }
 
-  async function carregarConfigs() {
-    try {
-      const r = await fetch(`${API}/api/configuracoes`);
-      configs = await r.json();
-      document.getElementById('info-whatsapp').textContent = configs.whatsapp || '5511999999999';
-      document.getElementById('info-instagram').textContent = configs.instagram || '@taodocequeella';
-      document.getElementById('info-endereco').textContent = configs.endereco || 'Entregamos via WhatsApp';
-      document.getElementById('info-horario').textContent = configs.horario_funcionamento || 'Seg a Dom: 10h às 22h';
-    } catch {
-      console.error('Erro ao carregar configurações');
-      // Dados padrão se a API falhar
-      document.getElementById('info-whatsapp').textContent = '5511999999999';
-    }
-  }
-
-  // BOTÃO DO WHATSAPP - FUNÇÃO PRINCIPAL CORRIGIDA
-  document.getElementById('btn-pedido')?.addEventListener('click', function() {
-    const nome = document.getElementById('cliente-nome').value.trim();
-    const obs = document.getElementById('cliente-obs').value.trim();
-    
-    if (!nome) {
-      showToast('Por favor, informe seu nome', 'error');
-      return;
-    }
-    
-    if (!carrinho.length) {
-      showToast('Seu carrinho está vazio', 'error');
-      return;
-    }
-    
-    let mensagem = `*PEDIDO - Tão Doce Quanto Ella*%0A%0A`;
-    mensagem += `*Cliente:* ${nome}%0A`;
-    if (obs) mensagem += `*Observações:* ${obs}%0A%0A`;
-    mensagem += `*ITENS:*%0A`;
-    
-    let total = 0;
-    for (let item of carrinho) {
-      const subtotal = item.preco * item.quantidade;
-      total += subtotal;
-      mensagem += `- ${item.quantidade}x ${item.nome} = R$ ${subtotal.toFixed(2).replace('.',',')}%0A`;
-    }
-    mensagem += `%0A*TOTAL: R$ ${total.toFixed(2).replace('.',',')}*%0A%0A`;
-    mensagem += `*Entrega via WhatsApp*`;
-    
-    let whatsappNum = configs.whatsapp || '5511999999999';
-    whatsappNum = whatsappNum.replace(/\D/g, '');
-    
-    const url = `https://wa.me/${whatsappNum}?text=${mensagem}`;
-    window.open(url, '_blank');
-    
-    carrinho = [];
-    atualizarCarrinhoContador();
-    atualizarCarrinhoModal();
-    closeCart();
-    showToast('Pedido enviado! Você será redirecionado ao WhatsApp.', 'success');
-  });
-
   // Eventos
   document.getElementById('cart-close')?.addEventListener('click', closeCart);
   document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
@@ -1014,7 +986,6 @@
 
   // Inicialização
   carregarProdutos();
-  carregarConfigs();
   atualizarCarrinhoContador();
 </script>
 </body>
