@@ -5,6 +5,7 @@ let authToken = sessionStorage.getItem('admin_token') || '';
 let produtos = [];
 let editingId = null;
 let uploadFile = null;
+let deleteTargetId = null;
 
 /* ── Toast ─────────────────────────────────────────────────────────────── */
 function toast(msg, type = '') {
@@ -61,6 +62,7 @@ function showApp() {
   document.getElementById('app').style.display = 'flex';
   loadDashboard();
   loadProdutos();
+  loadConfig();
 }
 
 /* ── Navigation ─────────────────────────────────────────────────────────── */
@@ -74,7 +76,6 @@ window.navTo = function(panel) {
   const titles = { dashboard: 'Dashboard', produtos: 'Produtos', configuracoes: 'Configurações' };
   document.getElementById('page-title').textContent = titles[panel] || '';
 
-  // Close mobile sidebar
   const sidebar = document.getElementById('sidebar');
   if (sidebar) sidebar.classList.remove('open');
 
@@ -129,6 +130,16 @@ function getIconForCategory(cat = '') {
   return map[cat.toLowerCase()] || '🍰';
 }
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
 function renderTabela() {
   const tbody = document.getElementById('produtos-tbody');
   if (!tbody) return;
@@ -141,7 +152,7 @@ function renderTabela() {
   tbody.innerHTML = produtos.map(p => {
     const src = p.imagem ? `${API}/uploads/${p.imagem}` : null;
     const thumbHtml = src
-      ? `<div class="produto-thumb"><img src="${src}" alt="${p.nome}" onerror="this.parentElement.innerHTML='${getIconForCategory(p.categoria)}'"></div>`
+      ? `<div class="produto-thumb"><img src="${src}" alt="${escapeHtml(p.nome)}" onerror="this.parentElement.innerHTML='${getIconForCategory(p.categoria)}'"></div>`
       : `<div class="produto-thumb">${getIconForCategory(p.categoria)}</div>`;
     return `
       <tr>
@@ -152,27 +163,17 @@ function renderTabela() {
         <td><span class="badge badge-${p.ativo ? 'ativo' : 'inativo'}">${p.ativo ? 'Ativo' : 'Inativo'}</span></td>
         <td>
           <div class="actions">
-            <button class="btn btn-sm btn-outline" onclick="abrirEditar(${p.id})">Editar</button>
-            <button class="btn btn-sm ${p.ativo ? 'btn-ghost' : 'btn-success'}" onclick="toggleProduto(${p.id})">${p.ativo ? 'Desativar' : 'Ativar'}</button>
-            <button class="btn btn-sm btn-danger" onclick="confirmarExcluir(${p.id})">Excluir</button>
+            <button class="btn btn-sm btn-outline" onclick="window.abrirEditar(${p.id})">Editar</button>
+            <button class="btn btn-sm ${p.ativo ? 'btn-ghost' : 'btn-success'}" onclick="window.toggleProduto(${p.id})">${p.ativo ? 'Desativar' : 'Ativar'}</button>
+            <button class="btn btn-sm btn-danger" onclick="window.confirmarExcluir(${p.id})">Excluir</button>
           </div>
         </td>
       </tr>`;
   }).join('');
 }
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
-}
-
 /* ── Modal Produto ──────────────────────────────────────────────────────── */
-function abrirNovoProduto() {
+window.abrirNovoProduto = function() {
   editingId = null;
   uploadFile = null;
   document.getElementById('modal-produto-titulo').textContent = 'Novo Produto';
@@ -181,7 +182,7 @@ function abrirNovoProduto() {
   document.getElementById('preview-wrap').style.display = 'none';
   document.getElementById('preview-img').src = '';
   abrirModal('modal-produto');
-}
+};
 
 window.abrirEditar = function(id) {
   const p = produtos.find(x => x.id === id);
@@ -263,11 +264,16 @@ window.toggleProduto = async function(id) {
   }
 };
 
-let deleteTargetId = null;
+/* ── Confirmar Exclusão (POPUP) ─────────────────────────────────────────── */
 window.confirmarExcluir = function(id) {
-  deleteTargetId = id;
+  console.log('confirmarExcluir chamado com id:', id);
   const p = produtos.find(x => x.id === id);
-  document.getElementById('confirm-nome').textContent = p ? p.nome : '';
+  if (!p) {
+    toast('Produto não encontrado.', 'error');
+    return;
+  }
+  deleteTargetId = id;
+  document.getElementById('confirm-nome').textContent = p.nome;
   abrirModal('modal-confirm');
 };
 
@@ -287,6 +293,11 @@ async function excluirConfirmado() {
   } catch {
     toast('Erro ao excluir produto.', 'error');
   }
+}
+
+function cancelarExclusao() {
+  deleteTargetId = null;
+  fecharModal('modal-confirm');
 }
 
 /* ── Upload ─────────────────────────────────────────────────────────────── */
@@ -377,6 +388,7 @@ function abrirModal(id) {
     document.body.style.overflow = 'hidden';
   }
 }
+
 function fecharModal(id) {
   const modal = document.getElementById(id);
   if (modal) {
@@ -402,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Nav
   document.querySelectorAll('.nav-item[data-panel]').forEach(el => {
-    el.addEventListener('click', () => navTo(el.dataset.panel));
+    el.addEventListener('click', () => window.navTo(el.dataset.panel));
   });
 
   // Mobile
@@ -419,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCancelarProduto = document.getElementById('btn-cancelar-produto');
   const closeModalProduto = document.getElementById('close-modal-produto');
   
-  if (btnNovoProduto) btnNovoProduto.addEventListener('click', abrirNovoProduto);
+  if (btnNovoProduto) btnNovoProduto.addEventListener('click', () => window.abrirNovoProduto());
   if (btnSalvarProduto) btnSalvarProduto.addEventListener('click', salvarProduto);
   if (btnCancelarProduto) btnCancelarProduto.addEventListener('click', () => fecharModal('modal-produto'));
   if (closeModalProduto) closeModalProduto.addEventListener('click', () => fecharModal('modal-produto'));
@@ -430,8 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalConfirm = document.getElementById('close-modal-confirm');
   
   if (btnConfirmarExcluir) btnConfirmarExcluir.addEventListener('click', excluirConfirmado);
-  if (btnCancelarExcluir) btnCancelarExcluir.addEventListener('click', () => fecharModal('modal-confirm'));
-  if (closeModalConfirm) closeModalConfirm.addEventListener('click', () => fecharModal('modal-confirm'));
+  if (btnCancelarExcluir) btnCancelarExcluir.addEventListener('click', cancelarExclusao);
+  if (closeModalConfirm) closeModalConfirm.addEventListener('click', cancelarExclusao);
 
   // Config
   const btnSalvarConfig = document.getElementById('btn-salvar-config');
