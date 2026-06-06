@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Admin — Tão Doce Quanto Ella</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-brand">Tão Doce Quanto Ella</div>
+      <div class="login-sub">Delivery Artesanal</div>
+      <div class="login-badge">Área Administrativa</div>
+    </div>
+
+    <h2>Entrar</h2>
+
+    <div id="login-error" class="login-error"></div>
+
+    <div class="form-group">
+      <label for="login-pw">Senha</label>
+      <input type="password" id="login-pw" placeholder="Digite sua senha" autocomplete="current-password">
+    </div>
+
+    <button id="btn-login" class="btn btn-primary btn-block">Entrar</button>
+  </div>
+</div>
+
+<div id="app" class="app-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-brand">Tão Doce Quanto Ella</div>
+      <div class="sidebar-sub">Delivery Artesanal</div>
+      <div class="sidebar-badge">Admin</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">Menu</div>
+      <div class="nav-item active" data-panel="dashboard">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </div>
+      <div class="nav-item" data-panel="produtos">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Produtos
+      </div>
+      <div class="nav-item" data-panel="configuracoes">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Configurações
+      </div>
+      <div class="nav-section" style="margin-top:16px">Site</div>
+      <div class="nav-item" onclick="window.open('/', '_blank')">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Ver site
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" id="btn-logout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sair
+      </button>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <h1 class="page-title" id="page-title">Dashboard</h1>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <div class="panel active" id="panel-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-label">Total de Produtos</div>
+              <div class="stat-val" id="stat-total">—</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon verde">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-label">Produtos Ativos</div>
+              <div class="stat-val" id="stat-ativos">—</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon cinza">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div>
+              <div class="stat-label">Produtos Inativos</div>
+              <div class="stat-val" id="stat-inativos">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--branco);border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px;max-width:640px">
+          <h3 style="font-family:var(--ff-titulo);font-size:1.1rem;margin-bottom:12px">Bem-vinda ao painel</h3>
+          <p style="font-size:0.9rem;color:var(--texto-sec);line-height:1.7">
+            Aqui você gerencia todos os produtos da <strong>Tão Doce Quanto Ella</strong>.
+            Cadastre novos doces, edite preços, ative ou desative itens do cardápio
+            e configure as informações da loja que aparecem no site.
+          </p>
+          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="navTo('produtos')">Ver produtos</button>
+            <button class="btn btn-outline btn-sm" onclick="navTo('configuracoes')">Configurações</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-produtos">
+        <div class="section-header">
+          <h2>Produtos</h2>
+          <button class="btn btn-primary btn-sm" id="btn-novo-produto">+ Novo produto</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:60px">Foto</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th style="width:100px">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="produtos-tbody">
+              <tr class="loading-row">
+                <td colspan="6"><div class="spinner"></div><p>Carregando…</p></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" id="panel-configuracoes">
+        <div class="section-header">
+          <h2>Configurações da loja</h2>
+        </div>
+
+        <div class="config-card">
+          <h3>Informações de contato</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>WhatsApp (com DDI e DDD)</label>
+              <input type="text" id="c-whatsapp" placeholder="5511999999999">
+            </div>
+            <div class="form-group">
+              <label>Instagram</label>
+              <input type="text" id="c-instagram" placeholder="@taodocequeella">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mensagem de entrega</label>
+            <input type="text" id="c-endereco" placeholder="Entregamos em toda a região">
+          </div>
+
+          <div class="form-group">
+            <label>Horário de funcionamento</label>
+            <input type="text" id="c-horario" placeholder="Seg a Sex: 9h–18h | Sáb: 9h–14h">
+          </div>
+
+          <button class="btn btn-primary btn-sm" id="btn-salvar-config" style="margin-top:8px">Salvar configurações</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-produto">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-produto-titulo">Novo Produto</h3>
+      <button class="modal-close" id="close-modal-produto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="form-produto" onsubmit="return false">
+        <div class="form-group">
+          <label>Nome *</label>
+          <input type="text" id="f-nome" placeholder="Ex: Brigadeiro Gourmet de Pistache" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="f-descricao" rows="3" placeholder="Descreva os ingredientes e diferenciais…"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preço (R$) *</label>
+            <input type="number" id="f-preco" step="0.01" min="0" placeholder="0,00" required>
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select id="f-categoria">
+              <option value="docinhos">Docinhos</option>
+              <option value="brigadeiros">Brigadeiros</option>
+              <option value="trufas">Trufas</option>
+              <option value="bolos de pote">Bolos de Pote</option>
+              <option value="bolos">Bolos</option>
+              <option value="tortas">Tortas</option>
+              <option value="cookies">Cookies</option>
+              <option value="caixas">Caixas Especiais</option>
+              <option value="geral">Geral</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select id="f-ativo">
+            <option value="1">Ativo (visível no site)</option>
+            <option value="0">Inativo (oculto)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Imagem</label>
+          <div class="upload-area" id="upload-area">
+            <input type="file" id="upload-input" accept=".jpg,.jpeg,.png,.webp">
+            <div class="upload-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <p>Clique ou arraste uma imagem aqui</p>
+            <small>JPG, PNG ou WEBP — máx. 10MB</small>
+          </div>
+          <div id="preview-wrap" style="display:none;margin-top:12px;position:relative">
+            <img id="preview-img" src="" alt="Preview" style="max-height:180px;border-radius:8px;border:1px solid var(--borda)">
+            <button type="button" class="img-preview-remove" onclick="removePreview()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="btn-cancelar-produto">Cancelar</button>
+      <button class="btn btn-primary" id="btn-salvar-produto">Salvar produto</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <h3>Confirmar exclusão</h3>
+      <button class="modal-close" id="close-modal-confirm">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--texto-sec);font-size:0.9rem">
+        Tem certeza que deseja excluir o produto <strong id="confirm-nome"></strong>?
+        Esta ação não pode ser desfeita.
+      </p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="btn-cancelar-excluir">Cancelar</button>
+      <button class="btn btn-danger" id="btn-confirmar-excluir">Sim, excluir</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="/static/js/admin.js"></script>
+</body>
+</html>
