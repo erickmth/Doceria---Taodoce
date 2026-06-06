@@ -60,10 +60,11 @@ function showApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   loadDashboard();
+  loadProdutos();
 }
 
 /* ── Navigation ─────────────────────────────────────────────────────────── */
-function navTo(panel) {
+window.navTo = function(panel) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
@@ -74,12 +75,13 @@ function navTo(panel) {
   document.getElementById('page-title').textContent = titles[panel] || '';
 
   // Close mobile sidebar
-  document.getElementById('sidebar').classList.remove('open');
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) sidebar.classList.remove('open');
 
   if (panel === 'dashboard') loadDashboard();
   if (panel === 'produtos') loadProdutos();
   if (panel === 'configuracoes') loadConfig();
-}
+};
 
 /* ── Dashboard ──────────────────────────────────────────────────────────── */
 async function loadDashboard() {
@@ -87,9 +89,9 @@ async function loadDashboard() {
     const r = await fetch(`${API}/api/stats`, { headers: authHeaders() });
     if (!r.ok) throw new Error();
     const data = await r.json();
-    document.getElementById('stat-total').textContent = data.total;
-    document.getElementById('stat-ativos').textContent = data.ativos;
-    document.getElementById('stat-inativos').textContent = data.inativos;
+    document.getElementById('stat-total').textContent = data.total || 0;
+    document.getElementById('stat-ativos').textContent = data.ativos || 0;
+    document.getElementById('stat-inativos').textContent = data.inativos || 0;
   } catch {
     toast('Erro ao carregar estatísticas.', 'error');
   }
@@ -98,10 +100,12 @@ async function loadDashboard() {
 /* ── Produtos ───────────────────────────────────────────────────────────── */
 async function loadProdutos() {
   const tbody = document.getElementById('produtos-tbody');
+  if (!tbody) return;
   tbody.innerHTML = `<tr class="loading-row"><td colspan="6"><div class="spinner"></div><p>Carregando…</p></td></tr>`;
 
   try {
     const r = await fetch(`${API}/api/produtos`, { headers: authHeaders() });
+    if (!r.ok) throw new Error();
     produtos = await r.json();
     renderTabela();
   } catch {
@@ -110,27 +114,40 @@ async function loadProdutos() {
   }
 }
 
-function emojiPorCat(cat = '') {
-  const map = { 'brigadeiros': '🍫', 'bolos de pote': '🍮', 'bolos': '🎂', 'trufas': '🍬', 'caixas': '🎁', 'docinhos': '🍭' };
+function getIconForCategory(cat = '') {
+  const map = { 
+    'brigadeiros': '🍫', 
+    'bolos de pote': '🥤', 
+    'bolos': '🎂', 
+    'trufas': '🍬', 
+    'caixas': '📦', 
+    'docinhos': '🍭',
+    'cookies': '🍪',
+    'tortas': '🥧',
+    'geral': '🍰'
+  };
   return map[cat.toLowerCase()] || '🍰';
 }
 
 function renderTabela() {
   const tbody = document.getElementById('produtos-tbody');
+  if (!tbody) return;
+  
   if (!produtos.length) {
     tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--texto-sec)">Nenhum produto cadastrado.</td></tr>`;
     return;
   }
+  
   tbody.innerHTML = produtos.map(p => {
     const src = p.imagem ? `${API}/uploads/${p.imagem}` : null;
     const thumbHtml = src
-      ? `<div class="produto-thumb"><img src="${src}" alt="${p.nome}" onerror="this.parentElement.innerHTML='${emojiPorCat(p.categoria)}'"></div>`
-      : `<div class="produto-thumb">${emojiPorCat(p.categoria)}</div>`;
+      ? `<div class="produto-thumb"><img src="${src}" alt="${p.nome}" onerror="this.parentElement.innerHTML='${getIconForCategory(p.categoria)}'"></div>`
+      : `<div class="produto-thumb">${getIconForCategory(p.categoria)}</div>`;
     return `
       <tr>
         <td>${thumbHtml}</td>
-        <td><strong>${p.nome}</strong></td>
-        <td>${p.categoria}</td>
+        <td><strong>${escapeHtml(p.nome)}</strong></td>
+        <td>${escapeHtml(p.categoria)}</td>
         <td>R$ ${Number(p.preco).toFixed(2).replace('.', ',')}</td>
         <td><span class="badge badge-${p.ativo ? 'ativo' : 'inativo'}">${p.ativo ? 'Ativo' : 'Inativo'}</span></td>
         <td>
@@ -144,23 +161,35 @@ function renderTabela() {
   }).join('');
 }
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
 /* ── Modal Produto ──────────────────────────────────────────────────────── */
 function abrirNovoProduto() {
   editingId = null;
   uploadFile = null;
   document.getElementById('modal-produto-titulo').textContent = 'Novo Produto';
   document.getElementById('form-produto').reset();
+  document.getElementById('f-id').value = '';
   document.getElementById('preview-wrap').style.display = 'none';
   document.getElementById('preview-img').src = '';
   abrirModal('modal-produto');
 }
 
-function abrirEditar(id) {
+window.abrirEditar = function(id) {
   const p = produtos.find(x => x.id === id);
   if (!p) return;
   editingId = id;
   uploadFile = null;
   document.getElementById('modal-produto-titulo').textContent = 'Editar Produto';
+  document.getElementById('f-id').value = p.id;
   document.getElementById('f-nome').value = p.nome;
   document.getElementById('f-descricao').value = p.descricao || '';
   document.getElementById('f-preco').value = Number(p.preco).toFixed(2);
@@ -176,7 +205,7 @@ function abrirEditar(id) {
     previewWrap.style.display = 'none';
   }
   abrirModal('modal-produto');
-}
+};
 
 async function salvarProduto() {
   const nome = document.getElementById('f-nome').value.trim();
@@ -216,7 +245,7 @@ async function salvarProduto() {
   }
 }
 
-async function toggleProduto(id) {
+window.toggleProduto = async function(id) {
   try {
     const r = await fetch(`${API}/api/produtos/${id}/toggle`, {
       method: 'POST',
@@ -232,15 +261,15 @@ async function toggleProduto(id) {
   } catch {
     toast('Erro ao atualizar produto.', 'error');
   }
-}
+};
 
 let deleteTargetId = null;
-function confirmarExcluir(id) {
+window.confirmarExcluir = function(id) {
   deleteTargetId = id;
   const p = produtos.find(x => x.id === id);
   document.getElementById('confirm-nome').textContent = p ? p.nome : '';
   abrirModal('modal-confirm');
-}
+};
 
 async function excluirConfirmado() {
   if (!deleteTargetId) return;
@@ -254,6 +283,7 @@ async function excluirConfirmado() {
     toast('Produto excluído.', 'success');
     loadProdutos();
     loadDashboard();
+    deleteTargetId = null;
   } catch {
     toast('Erro ao excluir produto.', 'error');
   }
@@ -263,6 +293,7 @@ async function excluirConfirmado() {
 function initUpload() {
   const area = document.getElementById('upload-area');
   const input = document.getElementById('upload-input');
+  if (!area) return;
 
   area.addEventListener('click', () => input.click());
   area.addEventListener('dragover', e => { e.preventDefault(); area.style.borderColor = 'var(--rosa)'; });
@@ -297,12 +328,12 @@ function processFile(f) {
   reader.readAsDataURL(f);
 }
 
-function removePreview() {
+window.removePreview = function() {
   uploadFile = null;
   document.getElementById('preview-img').src = '';
   document.getElementById('preview-wrap').style.display = 'none';
   document.getElementById('upload-input').value = '';
-}
+};
 
 /* ── Config ─────────────────────────────────────────────────────────────── */
 async function loadConfig() {
@@ -340,12 +371,18 @@ async function salvarConfig() {
 
 /* ── Modals ─────────────────────────────────────────────────────────────── */
 function abrirModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 }
 function fecharModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 }
 
 /* ── Mobile sidebar ─────────────────────────────────────────────────────── */
@@ -356,8 +393,10 @@ function toggleSidebar() {
 /* ── Init ───────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   // Login
-  document.getElementById('btn-login').addEventListener('click', doLogin);
-  document.getElementById('login-pw').addEventListener('keydown', e => {
+  const btnLogin = document.getElementById('btn-login');
+  const loginPw = document.getElementById('login-pw');
+  if (btnLogin) btnLogin.addEventListener('click', doLogin);
+  if (loginPw) loginPw.addEventListener('keydown', e => {
     if (e.key === 'Enter') doLogin();
   });
 
@@ -367,24 +406,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Mobile
-  document.getElementById('mobile-menu-btn')?.addEventListener('click', toggleSidebar);
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleSidebar);
 
   // Logout
-  document.getElementById('btn-logout').addEventListener('click', doLogout);
+  const btnLogout = document.getElementById('btn-logout');
+  if (btnLogout) btnLogout.addEventListener('click', doLogout);
 
   // Produto modal
-  document.getElementById('btn-novo-produto').addEventListener('click', abrirNovoProduto);
-  document.getElementById('btn-salvar-produto').addEventListener('click', salvarProduto);
-  document.getElementById('btn-cancelar-produto').addEventListener('click', () => fecharModal('modal-produto'));
-  document.getElementById('close-modal-produto').addEventListener('click', () => fecharModal('modal-produto'));
+  const btnNovoProduto = document.getElementById('btn-novo-produto');
+  const btnSalvarProduto = document.getElementById('btn-salvar-produto');
+  const btnCancelarProduto = document.getElementById('btn-cancelar-produto');
+  const closeModalProduto = document.getElementById('close-modal-produto');
+  
+  if (btnNovoProduto) btnNovoProduto.addEventListener('click', abrirNovoProduto);
+  if (btnSalvarProduto) btnSalvarProduto.addEventListener('click', salvarProduto);
+  if (btnCancelarProduto) btnCancelarProduto.addEventListener('click', () => fecharModal('modal-produto'));
+  if (closeModalProduto) closeModalProduto.addEventListener('click', () => fecharModal('modal-produto'));
 
   // Confirm modal
-  document.getElementById('btn-confirmar-excluir').addEventListener('click', excluirConfirmado);
-  document.getElementById('btn-cancelar-excluir').addEventListener('click', () => fecharModal('modal-confirm'));
-  document.getElementById('close-modal-confirm').addEventListener('click', () => fecharModal('modal-confirm'));
+  const btnConfirmarExcluir = document.getElementById('btn-confirmar-excluir');
+  const btnCancelarExcluir = document.getElementById('btn-cancelar-excluir');
+  const closeModalConfirm = document.getElementById('close-modal-confirm');
+  
+  if (btnConfirmarExcluir) btnConfirmarExcluir.addEventListener('click', excluirConfirmado);
+  if (btnCancelarExcluir) btnCancelarExcluir.addEventListener('click', () => fecharModal('modal-confirm'));
+  if (closeModalConfirm) closeModalConfirm.addEventListener('click', () => fecharModal('modal-confirm'));
 
   // Config
-  document.getElementById('btn-salvar-config').addEventListener('click', salvarConfig);
+  const btnSalvarConfig = document.getElementById('btn-salvar-config');
+  if (btnSalvarConfig) btnSalvarConfig.addEventListener('click', salvarConfig);
 
   // Upload
   initUpload();
