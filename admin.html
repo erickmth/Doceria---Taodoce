@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Admin — Tão Doce Quanto Ella</title>
-    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+  <link rel="icon" type="image/png" href="/static/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="/static/css/admin.css">
 </head>
@@ -17,29 +17,23 @@
       <div class="login-sub">Delivery Artesanal</div>
       <div class="login-badge">Área Administrativa</div>
     </div>
-
     <h2>Entrar</h2>
-
     <div id="login-error" class="login-error"></div>
-
     <div class="form-group">
       <label for="login-pw">Senha</label>
       <input type="password" id="login-pw" placeholder="Digite sua senha" autocomplete="current-password">
     </div>
-
     <button id="btn-login" class="btn btn-primary btn-block">Entrar</button>
   </div>
 </div>
 
 <div id="app" class="app-layout">
-
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-brand">Tão Doce Quanto Ella</div>
       <div class="sidebar-sub">Delivery Artesanal</div>
       <div class="sidebar-badge">Admin</div>
     </div>
-
     <nav class="sidebar-nav">
       <div class="nav-section">Menu</div>
       <div class="nav-item active" data-panel="dashboard">
@@ -76,7 +70,6 @@
         Ver site
       </div>
     </nav>
-
     <div class="sidebar-footer">
       <button class="logout-btn" id="btn-logout">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -104,7 +97,6 @@
     </div>
 
     <div class="page-content">
-
       <div class="panel active" id="panel-dashboard">
         <div class="stats-grid">
           <div class="stat-card">
@@ -145,7 +137,6 @@
             </div>
           </div>
         </div>
-
         <div style="background:var(--branco);border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px;max-width:640px">
           <h3 style="font-family:var(--ff-titulo);font-size:1.1rem;margin-bottom:12px">Bem-vinda ao painel</h3>
           <p style="font-size:0.9rem;color:var(--texto-sec);line-height:1.7">
@@ -165,7 +156,6 @@
           <h2>Produtos</h2>
           <button class="btn btn-primary btn-sm" id="btn-novo-produto">+ Novo produto</button>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
@@ -175,7 +165,7 @@
                 <th>Categoria</th>
                 <th>Preço</th>
                 <th>Status</th>
-                <th style="width:100px">Ações</th>
+                <th style="width:180px">Ações</th>
               </tr>
             </thead>
             <tbody id="produtos-tbody">
@@ -183,7 +173,7 @@
                 <td colspan="6"><div class="spinner"></div><p>Carregando…</p></td>
               </tr>
             </tbody>
-          </table>
+           </table>
         </div>
       </div>
 
@@ -191,10 +181,8 @@
         <div class="section-header">
           <h2>Configurações da loja</h2>
         </div>
-
         <div class="config-card">
           <h3>Informações de contato</h3>
-
           <div class="form-row">
             <div class="form-group">
               <label>WhatsApp (com DDI e DDD)</label>
@@ -205,21 +193,17 @@
               <input type="text" id="c-instagram" placeholder="@taodocequeella">
             </div>
           </div>
-
           <div class="form-group">
             <label>Mensagem de entrega</label>
             <input type="text" id="c-endereco" placeholder="Entregamos em toda a região">
           </div>
-
           <div class="form-group">
             <label>Horário de funcionamento</label>
             <input type="text" id="c-horario" placeholder="Seg a Sex: 9h–18h | Sáb: 9h–14h">
           </div>
-
           <button class="btn btn-primary btn-sm" id="btn-salvar-config" style="margin-top:8px">Salvar configurações</button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -237,16 +221,15 @@
     </div>
     <div class="modal-body">
       <form id="form-produto" onsubmit="return false">
+        <input type="hidden" id="f-id" value="">
         <div class="form-group">
           <label>Nome *</label>
           <input type="text" id="f-nome" placeholder="Ex: Brigadeiro Gourmet de Pistache" required>
         </div>
-
         <div class="form-group">
           <label>Descrição</label>
           <textarea id="f-descricao" rows="3" placeholder="Descreva os ingredientes e diferenciais…"></textarea>
         </div>
-
         <div class="form-row">
           <div class="form-group">
             <label>Preço (R$) *</label>
@@ -267,7 +250,6 @@
             </select>
           </div>
         </div>
-
         <div class="form-group">
           <label>Status</label>
           <select id="f-ativo">
@@ -275,7 +257,6 @@
             <option value="0">Inativo (oculto)</option>
           </select>
         </div>
-
         <div class="form-group">
           <label>Imagem</label>
           <div class="upload-area" id="upload-area">
