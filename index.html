@@ -1395,15 +1395,24 @@
   window.abrirModalProduto = function(produto) {
     produtoAtualModal = produto;
 
-    const imgUrl = produto.imagem_url || '/static/img/placeholder.jpg';
-    document.getElementById('modal-img').src = imgUrl;
-    document.getElementById('modal-img').alt = produto.nome;
-    document.getElementById('modal-img').onerror = function() { this.src = '/static/img/placeholder.jpg'; };
+    // Monta a URL da imagem da mesma forma que renderizarProdutos
+    const imgUrl = produto.imagem
+      ? `${API}/uploads/${produto.imagem}`
+      : (produto.imagem_url || '/static/img/placeholder.jpg');
+
+    const modalImg = document.getElementById('modal-img');
+    modalImg.src = imgUrl;
+    modalImg.alt = produto.nome;
+    modalImg.onerror = function() { this.src = '/static/img/placeholder.jpg'; };
+
     document.getElementById('modal-img-badge').textContent = produto.categoria || '';
     document.getElementById('modal-cat').textContent = produto.categoria || '';
     document.getElementById('modal-nome-titulo').textContent = produto.nome;
     document.getElementById('modal-desc').textContent = produto.descricao || 'Sem descrição disponível.';
     document.getElementById('modal-preco').innerHTML = `<span>R$</span>${produto.preco.toFixed(2).replace('.',',')}`;
+
+    // Guarda imgUrl resolvida para uso nos botões do modal
+    produtoAtualModal._imgUrl = imgUrl;
 
     document.getElementById('produto-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1422,7 +1431,8 @@
 
   document.getElementById('modal-add-btn').addEventListener('click', function() {
     if (!produtoAtualModal) return;
-    adicionarAoCarrinho(produtoAtualModal);
+    const p = produtoAtualModal;
+    adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: p._imgUrl || '/static/img/placeholder.jpg' });
     fecharModalProduto();
   });
 
@@ -1510,31 +1520,22 @@
     let html = '';
     for (let p of filtered) {
       const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
-      const produtoData = JSON.stringify({
-        id: p.id,
-        nome: p.nome.replace(/'/g, "\\'"),
-        preco: p.preco,
-        imagem_url: imgUrl,
-        categoria: (p.categoria || '').replace(/'/g, "\\'"),
-        descricao: (p.descricao || '').replace(/'/g, "\\'")
-      }).replace(/"/g, '&quot;');
-
       html += `
         <div class="produto-card">
-          <div class="produto-img" onclick="abrirModalProduto(${produtoData.replace(/&quot;/g, '"').replace(/'/g, "\\'")})" title="Ver detalhes">
+          <div class="produto-img produto-abre-modal" data-id="${p.id}" title="Ver detalhes">
             <img src="${imgUrl}" alt="${p.nome}" loading="lazy" onerror="this.src='/static/img/placeholder.jpg'">
             <div class="produto-img-overlay"><span>Ver detalhes</span></div>
           </div>
           <div class="produto-body">
             <div class="produto-cat">${p.categoria}</div>
-            <h3 class="produto-nome" onclick="abrirModalProduto(${produtoData.replace(/&quot;/g, '"').replace(/'/g, "\\'")})">${p.nome}</h3>
+            <h3 class="produto-nome produto-abre-modal" data-id="${p.id}">${p.nome}</h3>
             <p class="produto-desc">${p.descricao || ''}</p>
             <div class="produto-footer">
               <div class="produto-preco-wrap">
                 <span class="produto-preco-label">Preço</span>
                 <div class="produto-preco"><span>R$</span>${p.preco.toFixed(2).replace('.',',')}</div>
               </div>
-              <button class="add-btn" onclick="adicionarAoCarrinho({id:${p.id},nome:'${p.nome.replace(/'/g,"\\'")}',preco:${p.preco},imagem_url:'${imgUrl}'})">
+              <button class="add-btn produto-add-btn" data-id="${p.id}">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Adicionar
               </button>
@@ -1544,6 +1545,26 @@
       `;
     }
     grid.innerHTML = html;
+
+    // Delegação de eventos — sem onclick inline
+    grid.querySelectorAll('.produto-abre-modal').forEach(el => {
+      el.addEventListener('click', function() {
+        const id = parseInt(this.dataset.id);
+        const p = produtos.find(x => x.id === id);
+        if (p) abrirModalProduto(p);
+      });
+    });
+
+    grid.querySelectorAll('.produto-add-btn').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = parseInt(this.dataset.id);
+        const p = produtos.find(x => x.id === id);
+        if (!p) return;
+        const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+        adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: imgUrl });
+      });
+    });
   }
 
   // ── EVENTOS ────────────────────────────────────────
