@@ -390,8 +390,17 @@
       position: relative;
       cursor: pointer;
     }
-    .produto-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-    .produto-card:hover .produto-img img { transform: scale(1.04); }
+    .produto-img img, .produto-img video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .produto-img video {
+      pointer-events: none;
+    }
+    .produto-card:hover .produto-img img,
+    .produto-card:hover .produto-img video { transform: scale(1.04); }
 
     /* Overlay "ver mais" na imagem */
     .produto-img-overlay {
@@ -452,6 +461,20 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       flex: 1;
+    }
+    .produto-subcats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .produto-subcat-badge {
+      font-size: 0.6rem;
+      background: var(--rosa-pale);
+      color: var(--rosa);
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: inline-block;
     }
 
     .produto-footer {
@@ -531,10 +554,13 @@
       border-radius: var(--r-lg) 0 0 var(--r-lg);
       position: relative;
     }
-    .modal-img-side img {
+    .modal-img-side img, .modal-img-side video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .modal-img-side video {
+      pointer-events: none;
     }
     .modal-img-badge {
       position: absolute;
@@ -603,6 +629,12 @@
       color: var(--texto-sec);
       line-height: 1.7;
       flex: 1;
+    }
+    .modal-subcats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0;
     }
     .modal-preco-row {
       display: flex;
@@ -822,7 +854,11 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-img img, .cart-item-img video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .cart-item-info { flex: 1; min-width: 0; }
     .cart-item-nome { font-weight: 600; margin-bottom: 2px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .cart-item-preco { font-size: 0.8rem; color: var(--rosa); font-weight: 600; }
@@ -1083,24 +1119,23 @@
     <div class="destaques-header">
       <div class="section-label">Nossa seleção</div>
       <h2 class="section-title">Queridinhos da casa</h2>
-      <p>Os favoritos das nossas clientes, feitos com ingredientes premium e muito amor.</p>
+      <p>Os favoritos das nossas clientes, feitos com ingredientes selecionados e muito amor.</p>
     </div>
     <div class="destaques-grid">
       <div class="destaque-card">
         <div class="destaque-img"><img src="/static/img/destaque-cookies.jpg" alt="Cookies" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Cookies'"></div>
         <div class="destaque-titulo">Cookies</div>
-        <div class="destaque-desc">Cookies artesanais com gotas de chocolate belga, crocantes por fora e macios por dentro.</div>
+        <div class="destaque-desc">Cookies artesanais com gotas de ingredientes selecionados, crocantes por fora e macios por dentro.</div>
       </div>
       <div class="destaque-card">
         <div class="destaque-img"><img src="/static/img/destaque-chocolate-quente.jpg" alt="Chocolate quente cremoso" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Chocolate+Quente'"></div>
         <div class="destaque-titulo">Chocolate quente cremoso</div>
-        <div class="destaque-desc">Chocolate quente aveludado, feito com chocolate belga derretido e leite cremoso.</div>
+        <div class="destaque-desc">Chocolate quente aveludado, feito com ingredientes de qualidade derretidos e leite cremoso.</div>
       </div>
       <div class="destaque-card">
         <div class="destaque-img"><img src="/static/img/destaque-brownie.jpg" alt="Brownie" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Brownie'"></div>
         <div class="destaque-titulo">Brownie</div>
-        <div class="destaque-desc">Casquinha brilhante por fora e interior denso e chocolatudo, com sabor caseiro que conquista na primeira mordida.
-</div>
+        <div class="destaque-desc">Casquinha brilhante por fora e interior denso e chocolatudo, com sabor caseiro que conquista na primeira mordida.</div>
       </div>
     </div>
   </div>
@@ -1139,7 +1174,7 @@
         <p>Cada doce que preparamos carrega um pedacinho de carinho e dedicação. Sou Manoella e transformo ingredientes selecionados em momentos doces e inesquecíveis.</p>
         <p>Minha paixão por confeitaria começou em casa, testando receitas e criando sabores que conquistam. Hoje, levo todo esse amor até você através do delivery.</p>
         <div class="sobre-valores">
-          <div class="valor-item"><div class="valor-icon">Ingredientes Premium</div><div class="valor-titulo">Qualidade</div><div class="valor-desc">Chocolate belga e ingredientes selecionados.</div></div>
+          <div class="valor-item"><div class="valor-icon">Ingredientes Premium</div><div class="valor-titulo">Qualidade</div><div class="valor-desc">Ingredientes selecionados e cuidadosamente escolhidos.</div></div>
           <div class="valor-item"><div class="valor-icon">Feito com Amor</div><div class="valor-titulo">Carinho</div><div class="valor-desc">Cada doce preparado com dedicação.</div></div>
           <div class="valor-item"><div class="valor-icon">Delivery</div><div class="valor-titulo">Praticidade</div><div class="valor-desc">Entregamos onde você estiver.</div></div>
           <div class="valor-item"><div class="valor-icon">Embalagem</div><div class="valor-titulo">Apresentação</div><div class="valor-desc">Embalagem cuidadosa para presentear.</div></div>
@@ -1248,13 +1283,14 @@
 <div id="produto-overlay">
   <div id="produto-modal" role="dialog" aria-modal="true" aria-labelledby="modal-nome-titulo">
     <div class="modal-img-side" id="modal-img-side">
-      <img id="modal-img" src="" alt="">
+      <div id="modal-media-container"></div>
       <div class="modal-img-badge" id="modal-img-badge"></div>
     </div>
     <div class="modal-content-side">
       <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
       <div class="modal-cat" id="modal-cat"></div>
       <h2 class="modal-nome" id="modal-nome-titulo"></h2>
+      <div class="modal-subcats" id="modal-subcats"></div>
       <div class="modal-divider"></div>
       <p class="modal-desc" id="modal-desc"></p>
       <div class="modal-preco-row">
@@ -1332,7 +1368,7 @@
       total += subtotal;
       html += `
         <div class="cart-item">
-          <div class="cart-item-img"><img src="${item.imagem || '/static/img/placeholder.jpg'}" onerror="this.src='/static/img/placeholder.jpg'"></div>
+          <div class="cart-item-img">${item.tipoMedia === 'video' ? `<video src="${item.imagem}" muted loop playsinline></video>` : `<img src="${item.imagem}" onerror="this.src='/static/img/placeholder.jpg'">`}</div>
           <div class="cart-item-info">
             <div class="cart-item-nome">${item.nome}</div>
             <div class="cart-item-preco">R$ ${item.preco.toFixed(2).replace('.',',')}</div>
@@ -1371,7 +1407,7 @@
   window.adicionarAoCarrinho = function(produto) {
     const existente = carrinho.find(i => i.id === produto.id);
     if (existente) existente.quantidade++;
-    else carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, imagem: produto.imagem_url, quantidade: 1 });
+    else carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, imagem: produto.imagem_url, tipoMedia: produto.tipoMedia, quantidade: 1 });
     atualizarCarrinhoContador();
     atualizarCarrinhoModal();
     showToast(`${produto.nome} adicionado! 🍬`, 'success');
@@ -1396,24 +1432,30 @@
   window.abrirModalProduto = function(produto) {
     produtoAtualModal = produto;
 
-    // Monta a URL da imagem da mesma forma que renderizarProdutos
-    const imgUrl = produto.imagem
-      ? `${API}/uploads/${produto.imagem}`
-      : (produto.imagem_url || '/static/img/placeholder.jpg');
-
-    const modalImg = document.getElementById('modal-img');
-    modalImg.src = imgUrl;
-    modalImg.alt = produto.nome;
-    modalImg.onerror = function() { this.src = '/static/img/placeholder.jpg'; };
+    const mediaUrl = produto.imagem ? `${API}/uploads/${produto.imagem}` : '/static/img/placeholder.jpg';
+    const mediaContainer = document.getElementById('modal-media-container');
+    
+    if (produto.tipo_media === 'video') {
+      mediaContainer.innerHTML = `<video src="${mediaUrl}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+    } else {
+      mediaContainer.innerHTML = `<img src="${mediaUrl}" alt="${produto.nome}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='/static/img/placeholder.jpg'">`;
+    }
 
     document.getElementById('modal-img-badge').textContent = produto.categoria || '';
     document.getElementById('modal-cat').textContent = produto.categoria || '';
     document.getElementById('modal-nome-titulo').textContent = produto.nome;
     document.getElementById('modal-desc').textContent = produto.descricao || 'Sem descrição disponível.';
     document.getElementById('modal-preco').innerHTML = `<span>R$</span>${produto.preco.toFixed(2).replace('.',',')}`;
+    
+    // Subcategorias
+    const subcatsContainer = document.getElementById('modal-subcats');
+    if (produto.subcategorias && produto.subcategorias.length) {
+      subcatsContainer.innerHTML = produto.subcategorias.map(sc => `<span class="produto-subcat-badge">${sc.nome}</span>`).join('');
+    } else {
+      subcatsContainer.innerHTML = '';
+    }
 
-    // Guarda imgUrl resolvida para uso nos botões do modal
-    produtoAtualModal._imgUrl = imgUrl;
+    produtoAtualModal._mediaUrl = mediaUrl;
 
     document.getElementById('produto-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1433,7 +1475,7 @@
   document.getElementById('modal-add-btn').addEventListener('click', function() {
     if (!produtoAtualModal) return;
     const p = produtoAtualModal;
-    adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: p._imgUrl || '/static/img/placeholder.jpg' });
+    adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: p._mediaUrl, tipoMedia: p.tipo_media });
     fecharModalProduto();
   });
 
@@ -1494,12 +1536,19 @@
   function renderizarFiltros() {
     const container = document.getElementById('categorias-filtro');
     if (!container) return;
-    const cats = ['todos', ...new Set(produtos.filter(p => p.ativo === 1).map(p => p.categoria))];
+    
+    // Coletar categorias principais e subcategorias para filtro
+    const categoriasPrincipais = [...new Set(produtos.filter(p => p.ativo === 1).map(p => p.categoria))];
+    const todasSubcategorias = [...new Set(produtos.filter(p => p.ativo === 1).flatMap(p => (p.subcategorias || []).map(sc => sc.nome)))];
+    
+    const todasCategorias = ['todos', ...categoriasPrincipais, ...todasSubcategorias];
+    const categoriasUnicas = [...new Set(todasCategorias)];
+    
     container.innerHTML = '';
-    for (let cat of cats) {
+    for (let cat of categoriasUnicas) {
       const btn = document.createElement('button');
       btn.className = `cat-btn ${cat === 'todos' ? 'ativo' : ''}`;
-      btn.textContent = cat === 'todos' ? 'Todos' : cat.charAt(0).toUpperCase() + cat.slice(1);
+      btn.textContent = cat === 'todos' ? 'Todos' : cat;
       btn.onclick = () => {
         categoriaAtiva = cat;
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('ativo'));
@@ -1513,23 +1562,40 @@
   function renderizarProdutos() {
     const grid = document.getElementById('produtos-grid');
     let filtered = produtos.filter(p => p.ativo === 1);
-    if (categoriaAtiva !== 'todos') filtered = filtered.filter(p => p.categoria === categoriaAtiva);
+    
+    if (categoriaAtiva !== 'todos') {
+      filtered = filtered.filter(p => {
+        // Verifica se é categoria principal
+        if (p.categoria === categoriaAtiva) return true;
+        // Verifica se está em alguma subcategoria
+        if (p.subcategorias && p.subcategorias.some(sc => sc.nome === categoriaAtiva)) return true;
+        return false;
+      });
+    }
+    
     if (!filtered.length) {
       grid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Nenhum produto encontrado.</div>';
       return;
     }
+    
     let html = '';
     for (let p of filtered) {
-      const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+      const mediaUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+      const subcatBadges = (p.subcategorias || []).map(sc => `<span class="produto-subcat-badge">${sc.nome}</span>`).join('');
+      
       html += `
         <div class="produto-card">
           <div class="produto-img produto-abre-modal" data-id="${p.id}" title="Ver detalhes">
-            <img src="${imgUrl}" alt="${p.nome}" loading="lazy" onerror="this.src='/static/img/placeholder.jpg'">
+            ${p.tipo_media === 'video' 
+              ? `<video src="${mediaUrl}" autoplay muted loop playsinline poster="/static/img/placeholder.jpg"></video>`
+              : `<img src="${mediaUrl}" alt="${p.nome}" loading="lazy" onerror="this.src='/static/img/placeholder.jpg'">`
+            }
             <div class="produto-img-overlay"><span>Ver detalhes</span></div>
           </div>
           <div class="produto-body">
             <div class="produto-cat">${p.categoria}</div>
             <h3 class="produto-nome produto-abre-modal" data-id="${p.id}">${p.nome}</h3>
+            <div class="produto-subcats">${subcatBadges}</div>
             <p class="produto-desc">${p.descricao || ''}</p>
             <div class="produto-footer">
               <div class="produto-preco-wrap">
@@ -1547,7 +1613,7 @@
     }
     grid.innerHTML = html;
 
-    // Delegação de eventos — sem onclick inline
+    // Delegação de eventos
     grid.querySelectorAll('.produto-abre-modal').forEach(el => {
       el.addEventListener('click', function() {
         const id = parseInt(this.dataset.id);
@@ -1562,8 +1628,8 @@
         const id = parseInt(this.dataset.id);
         const p = produtos.find(x => x.id === id);
         if (!p) return;
-        const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
-        adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: imgUrl });
+        const mediaUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+        adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: mediaUrl, tipoMedia: p.tipo_media });
       });
     });
   }
@@ -1601,6 +1667,19 @@
   // ── INIT ───────────────────────────────────────────
   carregarProdutos();
   atualizarCarrinhoContador();
+  
+  // Carregar configurações para contato
+  async function loadConfig() {
+    try {
+      const r = await fetch(`${API}/api/configuracoes`);
+      const data = await r.json();
+      if (data.whatsapp) document.getElementById('info-whatsapp').textContent = data.whatsapp;
+      if (data.instagram) document.getElementById('info-instagram').textContent = data.instagram;
+      if (data.endereco) document.getElementById('info-endereco').textContent = data.endereco;
+      if (data.horario_funcionamento) document.getElementById('info-horario').textContent = data.horario_funcionamento;
+    } catch(e) {}
+  }
+  loadConfig();
 </script>
 </body>
 </html>
