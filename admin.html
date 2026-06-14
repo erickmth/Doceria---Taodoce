@@ -163,7 +163,7 @@
     }
 
     .sidebar {
-      width: 260px;
+      width: 280px;
       background: var(--branco);
       border-right: 1px solid var(--borda);
       display: flex;
@@ -251,7 +251,7 @@
 
     .main-content {
       flex: 1;
-      margin-left: 260px;
+      margin-left: 280px;
     }
     .topbar {
       background: var(--branco);
@@ -310,8 +310,6 @@
       justify-content: center;
       color: var(--rosa);
     }
-    .stat-icon.verde { background: #D5F5E3; color: #27AE60; }
-    .stat-icon.cinza { background: #F0F0F0; color: #7F8C8D; }
     .stat-label { font-size: 0.75rem; color: var(--texto-sec); text-transform: uppercase; letter-spacing: 0.05em; }
     .stat-val { font-size: 1.8rem; font-weight: 700; color: var(--texto); line-height: 1; }
 
@@ -354,20 +352,20 @@
     }
     tr:hover { background: var(--rosa-pale); }
     .produto-thumb {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border-radius: var(--r-sm);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.8rem;
       background: var(--rosa-pale);
+      overflow: hidden;
     }
-    .produto-thumb img {
+    .produto-thumb video, .produto-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: var(--r-sm);
     }
     .badge {
       display: inline-block;
@@ -391,38 +389,29 @@
       padding: 28px;
       max-width: 600px;
     }
-    .config-card h3 {
-      font-family: var(--ff-titulo);
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-    }
 
-    /* ── MODAL FIX ── */
+    /* Modal Styles */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
-      pointer-events: none;
       transition: opacity 0.2s ease, visibility 0.2s ease;
     }
     .modal-overlay.open {
       opacity: 1;
       visibility: visible;
-      pointer-events: auto;
     }
-    /* ── fim MODAL FIX ── */
-
     .modal {
       background: var(--branco);
       border-radius: var(--r-lg);
       width: 90%;
-      max-width: 560px;
+      max-width: 720px;
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -447,7 +436,6 @@
       align-items: center;
       justify-content: center;
     }
-    .modal-close:hover { background: var(--creme); }
     .modal-body { padding: 24px; }
     .modal-foot {
       padding: 16px 24px;
@@ -468,9 +456,17 @@
     .upload-area:hover { border-color: var(--rosa); background: var(--rosa-pale); }
     .upload-icon { margin-bottom: 12px; }
     .upload-area input { display: none; }
-    .upload-area p { font-size: 0.85rem; color: var(--texto-sec); }
-    .upload-area small { font-size: 0.7rem; color: var(--texto-sec); }
-    .img-preview-remove {
+    .preview-media {
+      margin-top: 12px;
+      position: relative;
+      text-align: center;
+    }
+    .preview-media img, .preview-media video {
+      max-height: 180px;
+      border-radius: 8px;
+      border: 1px solid var(--borda);
+    }
+    .remove-preview-btn {
       position: absolute;
       top: -8px;
       right: -8px;
@@ -485,7 +481,6 @@
       cursor: pointer;
       color: #fff;
     }
-    .img-preview-remove:hover { background: #A93226; }
 
     .spinner {
       width: 30px;
@@ -530,21 +525,12 @@
     @media (max-width: 768px) {
       .sidebar {
         transform: translateX(-100%);
-        width: 260px;
+        width: 280px;
       }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
       .mobile-menu-btn { display: block; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; gap: 12px; }
-      .actions { flex-direction: column; }
-    }
-
-    @media (max-width: 480px) {
-      .page-content { padding: 16px; }
-      .section-header { flex-direction: column; align-items: flex-start; }
-      .stat-val { font-size: 1.4rem; }
-      th, td { padding: 10px 8px; font-size: 0.8rem; }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -577,750 +563,190 @@
     <nav class="sidebar-nav">
       <div class="nav-section">Menu</div>
       <div class="nav-item active" data-panel="dashboard">
-        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-        </svg>
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         Dashboard
       </div>
       <div class="nav-item" data-panel="produtos">
-        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Produtos
       </div>
+      <div class="nav-item" data-panel="categorias">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7h-4.5L15 4H9L8.5 7H4v2h16V7zM4 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9H4z"/></svg>
+        Categorias
+      </div>
+      <div class="nav-item" data-panel="subcategorias">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7h-4.5L15 4H9L8.5 7H4v2h16V7zM4 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9H4z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+        Subcategorias
+      </div>
+      <div class="nav-item" data-panel="ocasioes">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Ocasiões Especiais
+      </div>
       <div class="nav-item" data-panel="configuracoes">
-        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Configurações
       </div>
       <div class="nav-section" style="margin-top:16px">Site</div>
       <div class="nav-item" onclick="window.open('/', '_blank')">
-        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-          <polyline points="15 3 21 3 21 9"/>
-          <line x1="10" y1="14" x2="21" y2="3"/>
-        </svg>
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         Ver site
       </div>
     </nav>
     <div class="sidebar-footer">
-      <button class="logout-btn" id="btn-logout">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-          <polyline points="16 17 21 12 16 7"/>
-          <line x1="21" y1="12" x2="9" y2="12"/>
-        </svg>
-        Sair
-      </button>
+      <button class="logout-btn" id="btn-logout"> Sair </button>
     </div>
   </aside>
 
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-left">
-        <button class="mobile-menu-btn" id="mobile-menu-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
         <h1 class="page-title" id="page-title">Dashboard</h1>
       </div>
     </div>
-
     <div class="page-content">
+      <!-- Dashboard Panel -->
       <div class="panel active" id="panel-dashboard">
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="9" cy="21" r="1"/>
-                <circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-            </div>
-            <div>
-              <div class="stat-label">Total de Produtos</div>
-              <div class="stat-val" id="stat-total">—</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon verde">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </div>
-            <div>
-              <div class="stat-label">Produtos Ativos</div>
-              <div class="stat-val" id="stat-ativos">—</div>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon cinza">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-            </div>
-            <div>
-              <div class="stat-label">Produtos Inativos</div>
-              <div class="stat-val" id="stat-inativos">—</div>
-            </div>
-          </div>
+          <div class="stat-card"><div class="stat-icon">📦</div><div><div class="stat-label">Total Produtos</div><div class="stat-val" id="stat-total">—</div></div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div><div class="stat-label">Produtos Ativos</div><div class="stat-val" id="stat-ativos">—</div></div></div>
+          <div class="stat-card"><div class="stat-icon">⛔</div><div><div class="stat-label">Produtos Inativos</div><div class="stat-val" id="stat-inativos">—</div></div></div>
         </div>
-        <div style="background:var(--branco);border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px;max-width:640px">
-          <h3 style="font-family:var(--ff-titulo);font-size:1.1rem;margin-bottom:12px">Bem-vinda ao painel</h3>
-          <p style="font-size:0.9rem;color:var(--texto-sec);line-height:1.7">
-            Aqui você gerencia todos os produtos da <strong>Tão Doce Quanto Ella</strong>.
-            Cadastre novos doces, edite preços, ative ou desative itens do cardápio
-            e configure as informações da loja que aparecem no site.
-          </p>
-          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" onclick="navTo('produtos')">Ver produtos</button>
-            <button class="btn btn-outline btn-sm" onclick="navTo('configuracoes')">Configurações</button>
-          </div>
-        </div>
+        <div class="config-card"><h3>Bem-vinda ao painel</h3><p>Gerencie produtos, categorias, subcategorias e ocasiões especiais.</p></div>
       </div>
 
+      <!-- Produtos Panel -->
       <div class="panel" id="panel-produtos">
-        <div class="section-header">
-          <h2>Produtos</h2>
-          <button class="btn btn-primary btn-sm" id="btn-novo-produto">+ Novo produto</button>
-        </div>
+        <div class="section-header"><h2>Produtos</h2><button class="btn btn-primary btn-sm" id="btn-novo-produto">+ Novo produto</button></div>
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th style="width:60px">Foto</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Preço</th>
-                <th>Status</th>
-                <th style="width:180px">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="produtos-tbody">
-              <tr class="loading-row">
-                <td colspan="6"><div class="spinner"></div><p>Carregando…</p></td>
-              </tr>
-            </tbody>
-           </table>
+          <table><thead><tr><th>Mídia</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Status</th><th>Ações</th></tr></thead><tbody id="produtos-tbody"><tr class="loading-row"><td colspan="6"><div class="spinner"></div></td></tr></tbody></table>
         </div>
       </div>
 
+      <!-- Categorias Primárias Panel -->
+      <div class="panel" id="panel-categorias">
+        <div class="section-header"><h2>Categorias Primárias</h2></div>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nome</th><th>Slug</th></tr></thead><tbody id="categorias-tbody"></tbody></table></div>
+      </div>
+
+      <!-- Subcategorias Panel -->
+      <div class="panel" id="panel-subcategorias">
+        <div class="section-header"><h2>Subcategorias</h2><button class="btn btn-primary btn-sm" id="btn-nova-subcategoria">+ Nova Subcategoria</button></div>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nome</th><th>Slug</th><th>Categoria Pai</th><th>Ações</th></tr></thead><tbody id="subcategorias-tbody"></tbody></table></div>
+      </div>
+
+      <!-- Ocasiões Panel -->
+      <div class="panel" id="panel-ocasioes">
+        <div class="section-header"><h2>Ocasiões Especiais</h2><button class="btn btn-primary btn-sm" id="btn-nova-ocasiao">+ Nova Ocasião</button></div>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nome</th><th>Slug</th><th>Ícone</th><th>Ações</th></tr></thead><tbody id="ocasioes-tbody"></tbody></table></div>
+      </div>
+
+      <!-- Configurações Panel -->
       <div class="panel" id="panel-configuracoes">
-        <div class="section-header">
-          <h2>Configurações da loja</h2>
-        </div>
-        <div class="config-card">
-          <h3>Informações de contato</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label>WhatsApp (com DDI e DDD)</label>
-              <input type="text" id="c-whatsapp" placeholder="5511999999999">
-            </div>
-            <div class="form-group">
-              <label>Instagram</label>
-              <input type="text" id="c-instagram" placeholder="@taodocequeella">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Mensagem de entrega</label>
-            <input type="text" id="c-endereco" placeholder="Entregamos em toda a região">
-          </div>
-          <div class="form-group">
-            <label>Horário de funcionamento</label>
-            <input type="text" id="c-horario" placeholder="Seg a Sex: 9h–18h | Sáb: 9h–14h">
-          </div>
-          <button class="btn btn-primary btn-sm" id="btn-salvar-config">Salvar configurações</button>
-        </div>
+        <div class="section-header"><h2>Configurações da loja</h2></div>
+        <div class="config-card"><h3>Informações de contato</h3><div class="form-row"><div class="form-group"><label>WhatsApp</label><input type="text" id="c-whatsapp"></div><div class="form-group"><label>Instagram</label><input type="text" id="c-instagram"></div></div><div class="form-group"><label>Endereço/Entrega</label><input type="text" id="c-endereco"></div><div class="form-group"><label>Horário</label><input type="text" id="c-horario"></div><button class="btn btn-primary" id="btn-salvar-config">Salvar configurações</button></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal: Produto -->
-<div class="modal-overlay" id="modal-produto">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="modal-produto-titulo">Novo Produto</h3>
-      <button class="modal-close" id="close-modal-produto">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form id="form-produto" onsubmit="return false">
-        <input type="hidden" id="f-id" value="">
-        <div class="form-group">
-          <label>Nome *</label>
-          <input type="text" id="f-nome" placeholder="Ex: Brigadeiro Gourmet de Pistache" required>
-        </div>
-        <div class="form-group">
-          <label>Descrição</label>
-          <textarea id="f-descricao" rows="3" placeholder="Descreva os ingredientes e diferenciais…"></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Preço (R$) *</label>
-            <input type="number" id="f-preco" step="0.01" min="0" placeholder="0,00" required>
-          </div>
-          <div class="form-group">
-            <label>Categoria</label>
-            <select id="f-categoria">
-              <option value="docinhos">Docinhos</option>
-              <option value="brigadeiros">Brigadeiros</option>
-              <option value="trufas">Trufas</option>
-              <option value="bolos de pote">Bolos de Pote</option>
-              <option value="bolos">Bolos</option>
-              <option value="tortas">Tortas</option>
-              <option value="cookies">Cookies</option>
-              <option value="caixas">Caixas Especiais</option>
-              <option value="geral">Geral</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="f-ativo">
-            <option value="1">Ativo (visível no site)</option>
-            <option value="0">Inativo (oculto)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Imagem</label>
-          <div class="upload-area" id="upload-area">
-            <input type="file" id="upload-input" accept=".jpg,.jpeg,.png,.webp">
-            <div class="upload-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-            </div>
-            <p>Clique ou arraste uma imagem aqui</p>
-            <small>JPG, PNG ou WEBP — máx. 10MB</small>
-          </div>
-          <div id="preview-wrap" style="display:none;margin-top:12px;position:relative">
-            <img id="preview-img" src="" alt="Preview" style="max-height:180px;border-radius:8px;border:1px solid var(--borda)">
-            <button type="button" class="img-preview-remove" onclick="removePreview()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"/>
-                <line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" id="btn-cancelar-produto">Cancelar</button>
-      <button class="btn btn-primary" id="btn-salvar-produto">Salvar produto</button>
-    </div>
-  </div>
-</div>
+<!-- Modal Produto -->
+<div class="modal-overlay" id="modal-produto"><div class="modal"><div class="modal-head"><h3 id="modal-produto-titulo">Produto</h3><button class="modal-close" id="close-modal-produto">✕</button></div><div class="modal-body"><form id="form-produto"><input type="hidden" id="f-id"><div class="form-group"><label>Nome</label><input type="text" id="f-nome" required></div><div class="form-group"><label>Descrição</label><textarea id="f-descricao" rows="3"></textarea></div><div class="form-row"><div class="form-group"><label>Preço (R$)</label><input type="number" id="f-preco" step="0.01" required></div><div class="form-group"><label>Categoria Primária</label><select id="f-categoria_primaria_id" required></select></div></div><div class="form-group"><label>Subcategorias</label><select id="f-subcategorias_ids" multiple size="4" style="height: auto;"></select><small>Segure Ctrl (Cmd) para selecionar múltiplas</small></div><div class="form-group"><label>Ocasiões Especiais</label><select id="f-ocasioes_ids" multiple size="4"></select></div><div class="form-group"><label>Status</label><select id="f-ativo"><option value="1">Ativo</option><option value="0">Inativo</option></select></div><div class="form-group"><label>Mídia (Imagem ou Vídeo)</label><div class="upload-area" id="upload-area"><input type="file" id="upload-input" accept=".jpg,.jpeg,.png,.webp,.mp4,.webm,.mov"><div class="upload-icon">📁</div><p>Clique ou arraste (imagem/vídeo)</p><small>JPG, PNG, WEBP, MP4, WEBM, MOV | Max 50MB</small></div><div id="preview-wrap" style="display:none;" class="preview-media"><button type="button" class="remove-preview-btn" onclick="removePreview()">✕</button></div></div></form></div><div class="modal-foot"><button class="btn btn-ghost" id="btn-cancelar-produto">Cancelar</button><button class="btn btn-primary" id="btn-salvar-produto">Salvar</button></div></div></div>
 
-<!-- Modal: Confirmação de exclusão -->
-<div class="modal-overlay" id="modal-confirm">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-head">
-      <h3>Confirmar exclusão</h3>
-      <button class="modal-close" id="close-modal-confirm">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p style="color:var(--texto-sec);font-size:0.9rem">
-        Tem certeza que deseja excluir o produto <strong id="confirm-nome"></strong>?
-        Esta ação não pode ser desfeita.
-      </p>
-    </div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" id="btn-cancelar-excluir">Cancelar</button>
-      <button class="btn btn-danger" id="btn-confirmar-excluir">Sim, excluir</button>
-    </div>
-  </div>
-</div>
+<!-- Modal Subcategoria -->
+<div class="modal-overlay" id="modal-subcategoria"><div class="modal"><div class="modal-head"><h3>Subcategoria</h3><button class="modal-close" id="close-modal-subcategoria">✕</button></div><div class="modal-body"><input type="hidden" id="sub-id"><div class="form-group"><label>Nome</label><input type="text" id="sub-nome" required></div><div class="form-group"><label>Slug</label><input type="text" id="sub-slug" required></div><div class="form-group"><label>Categoria Primária</label><select id="sub-categoria_primaria_id" required></select></div></div><div class="modal-foot"><button class="btn btn-ghost" id="btn-cancelar-sub">Cancelar</button><button class="btn btn-primary" id="btn-salvar-sub">Salvar</button></div></div></div>
+
+<!-- Modal Ocasião -->
+<div class="modal-overlay" id="modal-ocasiao"><div class="modal"><div class="modal-head"><h3>Ocasião Especial</h3><button class="modal-close" id="close-modal-ocasiao">✕</button></div><div class="modal-body"><input type="hidden" id="oc-id"><div class="form-group"><label>Nome</label><input type="text" id="oc-nome" required></div><div class="form-group"><label>Slug</label><input type="text" id="oc-slug" required></div><div class="form-group"><label>Ícone (Emoji)</label><input type="text" id="oc-icone" placeholder="🎂"></div></div><div class="modal-foot"><button class="btn btn-ghost" id="btn-cancelar-oc">Cancelar</button><button class="btn btn-primary" id="btn-salvar-oc">Salvar</button></div></div></div>
 
 <div id="toast-container"></div>
-
 <script>
-  (function() {
-    const API = 'https://banco.pythonanywhere.com';
-    let authToken = sessionStorage.getItem('admin_token') || '';
-    let produtos = [];
-    let editingId = null;
-    let uploadFile = null;
-    let deleteTargetId = null;
+  const API = 'https://banco.pythonanywhere.com'; // Ajuste para sua URL se necessário
+  let authToken = sessionStorage.getItem('admin_token') || '';
+  let produtos = [];
+  let categorias = [];
+  let subcategorias = [];
+  let ocasioes = [];
+  let editingProdutoId = null;
+  let editingSubId = null;
+  let editingOcId = null;
+  let uploadFile = null;
 
-    function toast(msg, type = '') {
-      const container = document.getElementById('toast-container');
-      if (!container) return;
-      const el = document.createElement('div');
-      el.className = `toast ${type}`;
-      el.innerHTML = msg;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), 3500);
-    }
+  function toast(msg, type='') { const c=document.getElementById('toast-container'); if(!c)return; const e=document.createElement('div'); e.className=`toast ${type}`; e.innerHTML=msg; c.appendChild(e); setTimeout(()=>e.remove(),3500); }
+  function authHeaders() { return { 'X-Admin-Password': authToken }; }
+  async function doLogin() { const pw=document.getElementById('login-pw').value; const err=document.getElementById('login-error'); err.style.display='none'; try{ const r=await fetch(`${API}/api/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})}); const data=await r.json(); if(r.ok&&data.success){ authToken=data.token; sessionStorage.setItem('admin_token',authToken); showApp(); } else { err.textContent=data.error||'Senha incorreta.'; err.style.display='block'; } } catch{ err.textContent='Erro de conexão.'; err.style.display='block'; } }
+  function doLogout() { authToken=''; sessionStorage.removeItem('admin_token'); document.getElementById('app').classList.remove('visible'); document.getElementById('login-screen').style.display='flex'; }
+  function showApp() { document.getElementById('login-screen').style.display='none'; document.getElementById('app').classList.add('visible'); loadDashboard(); loadAllData(); }
+  function navTo(panel) { document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); document.getElementById(`panel-${panel}`).classList.add('active'); document.querySelector(`.nav-item[data-panel="${panel}"]`).classList.add('active'); const titles={dashboard:'Dashboard',produtos:'Produtos',categorias:'Categorias',subcategorias:'Subcategorias',ocasioes:'Ocasiões',configuracoes:'Configurações'}; document.getElementById('page-title').textContent=titles[panel]; if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open'); if(panel==='dashboard') loadDashboard(); }
+  window.navTo = navTo;
 
-    function authHeaders() {
-      return { 'X-Admin-Password': authToken };
-    }
+  async function loadAllData() { await Promise.all([loadProdutos(), loadCategorias(), loadSubcategorias(), loadOcasioes(), loadConfig()]); }
+  async function loadDashboard() { try{ const r=await fetch(`${API}/api/stats`,{headers:authHeaders()}); if(r.ok){ const d=await r.json(); document.getElementById('stat-total').textContent=d.total||0; document.getElementById('stat-ativos').textContent=d.ativos||0; document.getElementById('stat-inativos').textContent=d.inativos||0; } } catch(e){ toast('Erro ao carregar stats','error'); } }
+  async function loadProdutos() { try{ const r=await fetch(`${API}/api/produtos`,{headers:authHeaders()}); if(r.ok){ produtos=await r.json(); renderProdutosTable(); } else throw new Error(); } catch{ toast('Erro ao carregar produtos','error'); } }
+  function renderProdutosTable() { const tbody=document.getElementById('produtos-tbody'); if(!tbody)return; if(!produtos.length){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhum produto</td></tr>'; return; } tbody.innerHTML=produtos.map(p=>{ const mediaHtml = p.media_type==='video' ? `<video src="${API}/uploads/${p.media_path}" autoplay muted loop playsinline></video>` : `<img src="${API}/uploads/${p.media_path}" onerror="this.parentElement.innerHTML='📦'">`; return `<tr><td class="produto-thumb">${p.media_path?mediaHtml:'📦'}</td><td><strong>${escapeHtml(p.nome)}</strong></td><td>${escapeHtml(p.categoria_nome)}</td><td>R$ ${p.preco.toFixed(2).replace('.',',')}</td><td><span class="badge badge-${p.ativo?'ativo':'inativo'}">${p.ativo?'Ativo':'Inativo'}</span></td><td class="actions"><button class="btn btn-sm btn-outline" onclick="editarProduto(${p.id})">Editar</button><button class="btn btn-sm ${p.ativo?'btn-ghost':'btn-success'}" onclick="toggleProduto(${p.id})">${p.ativo?'Desativar':'Ativar'}</button><button class="btn btn-sm btn-danger" onclick="excluirProduto(${p.id})">Excluir</button></td></tr>`; }).join(''); }
+  async function toggleProduto(id){ try{ const r=await fetch(`${API}/api/produtos/${id}/toggle`,{method:'POST',headers:authHeaders()}); if(r.ok){ toast('Status atualizado','success'); loadProdutos(); loadDashboard(); } else throw new Error(); } catch{ toast('Erro ao alterar status','error'); } }
+  async function excluirProduto(id){ if(!confirm('Tem certeza?')) return; try{ const r=await fetch(`${API}/api/produtos/${id}`,{method:'DELETE',headers:authHeaders()}); if(r.ok){ toast('Produto excluído','success'); loadProdutos(); loadDashboard(); } else throw new Error(); } catch{ toast('Erro ao excluir','error'); } }
 
-    async function doLogin() {
-      const pw = document.getElementById('login-pw').value;
-      const errEl = document.getElementById('login-error');
-      errEl.style.display = 'none';
+  function abrirModalProduto(produto=null){ editingProdutoId=produto?.id||null; document.getElementById('modal-produto-titulo').textContent=produto?'Editar Produto':'Novo Produto'; document.getElementById('form-produto').reset(); document.getElementById('f-id').value=produto?.id||''; document.getElementById('f-nome').value=produto?.nome||''; document.getElementById('f-descricao').value=produto?.descricao||''; document.getElementById('f-preco').value=produto?.preco||''; document.getElementById('f-ativo').value=produto?.ativo!==undefined?produto.ativo:'1'; document.getElementById('preview-wrap').style.display='none'; uploadFile=null; // Populate selects
+    const catSelect=document.getElementById('f-categoria_primaria_id'); catSelect.innerHTML='<option value="">Selecione</option>'+categorias.map(c=>`<option value="${c.id}" ${produto?.categoria_primaria_id===c.id?'selected':''}>${c.nome}</option>`).join('');
+    const subSelect=document.getElementById('f-subcategorias_ids'); subSelect.innerHTML='<option value="">Nenhuma</option>'+subcategorias.map(s=>`<option value="${s.id}" ${produto?.subcategorias?.some(ps=>ps.id===s.id)?'selected':''}>${s.nome} (${s.categoria_nome})</option>`).join('');
+    const ocSelect=document.getElementById('f-ocasioes_ids'); ocSelect.innerHTML='<option value="">Nenhuma</option>'+ocasioes.map(o=>`<option value="${o.id}" ${produto?.ocasioes?.some(po=>po.id===o.id)?'selected':''}>${o.nome}</option>`).join('');
+    if(produto?.media_path){ const previewDiv=document.getElementById('preview-wrap'); const isVideo=produto.media_type==='video'; previewDiv.innerHTML=`<button type="button" class="remove-preview-btn" onclick="removePreview()">✕</button>${isVideo?`<video src="${API}/uploads/${produto.media_path}" controls style="max-height:180px"></video>`:`<img src="${API}/uploads/${produto.media_path}" style="max-height:180px">`}`; previewDiv.style.display='block'; }
+    document.getElementById('modal-produto').classList.add('open'); document.body.style.overflow='hidden';
+  }
+  window.editarProduto = (id) => { const p = produtos.find(p=>p.id===id); if(p) abrirModalProduto(p); };
+  async function salvarProduto(){ const fd=new FormData(); fd.append('nome',document.getElementById('f-nome').value); fd.append('descricao',document.getElementById('f-descricao').value); fd.append('preco',document.getElementById('f-preco').value); fd.append('categoria_primaria_id',document.getElementById('f-categoria_primaria_id').value); fd.append('ativo',document.getElementById('f-ativo').value); const subIds=[...document.getElementById('f-subcategorias_ids').selectedOptions].map(opt=>opt.value); const ocIds=[...document.getElementById('f-ocasioes_ids').selectedOptions].map(opt=>opt.value); subIds.forEach(id=>fd.append('subcategorias_ids',id)); ocIds.forEach(id=>fd.append('ocasioes_ids',id)); if(uploadFile) fd.append('media_file',uploadFile); const url=editingProdutoId?`${API}/api/produtos/${editingProdutoId}`:`${API}/api/produtos`; const method=editingProdutoId?'PUT':'POST'; try{ const r=await fetch(url,{method,headers:authHeaders(),body:fd}); if(r.ok){ toast('Produto salvo!','success'); fecharModal('modal-produto'); loadProdutos(); loadDashboard(); } else { const err=await r.json(); toast(err.error||'Erro ao salvar','error'); } } catch(e){ toast('Erro de conexão','error'); } }
 
-      try {
-        const r = await fetch(`${API}/api/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pw })
-        });
-        const data = await r.json();
-        if (r.ok && data.success) {
-          authToken = data.token;
-          sessionStorage.setItem('admin_token', authToken);
-          showApp();
-        } else {
-          errEl.textContent = data.error || 'Senha incorreta.';
-          errEl.style.display = 'block';
-        }
-      } catch {
-        errEl.textContent = 'Erro de conexão. Verifique o servidor.';
-        errEl.style.display = 'block';
-      }
-    }
+  async function loadCategorias(){ try{ const r=await fetch(`${API}/api/categorias`); if(r.ok){ categorias=await r.json(); const tbody=document.getElementById('categorias-tbody'); if(tbody) tbody.innerHTML=categorias.map(c=>`<tr><td>${c.id}</td><td><strong>${c.nome}</strong></td><td>${c.slug}</td></tr>`).join(''); } } catch(e){ toast('Erro ao carregar categorias','error'); } }
+  async function loadSubcategorias(){ try{ const r=await fetch(`${API}/api/subcategorias`); if(r.ok){ subcategorias=await r.json(); const tbody=document.getElementById('subcategorias-tbody'); if(tbody) tbody.innerHTML=subcategorias.map(s=>`<tr><td>${s.id}</td><td>${s.nome}</td><td>${s.slug}</td><td>${s.categoria_nome}</td><td><button class="btn btn-sm btn-outline" onclick="editarSubcategoria(${s.id})">Editar</button> <button class="btn btn-sm btn-danger" onclick="excluirSubcategoria(${s.id})">Excluir</button></td></tr>`).join(''); } } catch(e){ toast('Erro ao carregar subcategorias','error'); } }
+  function abrirModalSubcategoria(sub=null){ editingSubId=sub?.id||null; document.getElementById('sub-id').value=sub?.id||''; document.getElementById('sub-nome').value=sub?.nome||''; document.getElementById('sub-slug').value=sub?.slug||''; const select=document.getElementById('sub-categoria_primaria_id'); select.innerHTML='<option value="">Selecione</option>'+categorias.map(c=>`<option value="${c.id}" ${sub?.categoria_primaria_id===c.id?'selected':''}>${c.nome}</option>`).join(''); document.getElementById('modal-subcategoria').classList.add('open'); }
+  async function salvarSubcategoria(){ const data={ nome:document.getElementById('sub-nome').value, slug:document.getElementById('sub-slug').value, categoria_primaria_id:document.getElementById('sub-categoria_primaria_id').value }; const url=editingSubId?`${API}/api/subcategorias/${editingSubId}`:`${API}/api/subcategorias`; const method=editingSubId?'PUT':'POST'; try{ const r=await fetch(url,{method,headers:{...authHeaders(),'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok){ toast('Subcategoria salva!','success'); fecharModal('modal-subcategoria'); loadSubcategorias(); } else { const err=await r.json(); toast(err.error||'Erro','error'); } } catch(e){ toast('Erro de conexão','error'); } }
+  async function excluirSubcategoria(id){ if(!confirm('Excluir esta subcategoria?')) return; try{ const r=await fetch(`${API}/api/subcategorias/${id}`,{method:'DELETE',headers:authHeaders()}); if(r.ok){ toast('Excluída','success'); loadSubcategorias(); } else throw new Error(); } catch{ toast('Erro ao excluir','error'); } }
 
-    function doLogout() {
-      authToken = '';
-      sessionStorage.removeItem('admin_token');
-      document.getElementById('app').classList.remove('visible');
-      document.getElementById('login-screen').style.display = 'flex';
-      const loginPw = document.getElementById('login-pw');
-      if (loginPw) loginPw.value = '';
-    }
+  async function loadOcasioes(){ try{ const r=await fetch(`${API}/api/ocasioes`); if(r.ok){ ocasioes=await r.json(); const tbody=document.getElementById('ocasioes-tbody'); if(tbody) tbody.innerHTML=ocasioes.map(o=>`<tr><td>${o.id}</td><td>${o.nome}</td><td>${o.slug}</td><td>${o.icone||''}</td><td><button class="btn btn-sm btn-outline" onclick="editarOcasiao(${o.id})">Editar</button> <button class="btn btn-sm btn-danger" onclick="excluirOcasiao(${o.id})">Excluir</button></td></tr>`).join(''); } } catch(e){ toast('Erro ao carregar ocasiões','error'); } }
+  function abrirModalOcasiao(oc=null){ editingOcId=oc?.id||null; document.getElementById('oc-id').value=oc?.id||''; document.getElementById('oc-nome').value=oc?.nome||''; document.getElementById('oc-slug').value=oc?.slug||''; document.getElementById('oc-icone').value=oc?.icone||''; document.getElementById('modal-ocasiao').classList.add('open'); }
+  async function salvarOcasiao(){ const data={ nome:document.getElementById('oc-nome').value, slug:document.getElementById('oc-slug').value, icone:document.getElementById('oc-icone').value }; const url=editingOcId?`${API}/api/ocasioes/${editingOcId}`:`${API}/api/ocasioes`; const method=editingOcId?'PUT':'POST'; try{ const r=await fetch(url,{method,headers:{...authHeaders(),'Content-Type':'application/json'},body:JSON.stringify(data)}); if(r.ok){ toast('Ocasião salva!','success'); fecharModal('modal-ocasiao'); loadOcasioes(); } else { const err=await r.json(); toast(err.error||'Erro','error'); } } catch(e){ toast('Erro de conexão','error'); } }
+  async function excluirOcasiao(id){ if(!confirm('Excluir esta ocasião?')) return; try{ const r=await fetch(`${API}/api/ocasioes/${id}`,{method:'DELETE',headers:authHeaders()}); if(r.ok){ toast('Excluída','success'); loadOcasioes(); } else throw new Error(); } catch{ toast('Erro ao excluir','error'); } }
 
-    function showApp() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').classList.add('visible');
-      loadDashboard();
-      loadProdutos();
-      loadConfig();
-    }
+  async function loadConfig(){ try{ const r=await fetch(`${API}/api/configuracoes`); if(r.ok){ const d=await r.json(); document.getElementById('c-whatsapp').value=d.whatsapp||''; document.getElementById('c-instagram').value=d.instagram||''; document.getElementById('c-endereco').value=d.endereco||''; document.getElementById('c-horario').value=d.horario_funcionamento||''; } } catch{ toast('Erro ao carregar config','error'); } }
+  async function salvarConfig(){ const data={ whatsapp:document.getElementById('c-whatsapp').value, instagram:document.getElementById('c-instagram').value, endereco:document.getElementById('c-endereco').value, horario_funcionamento:document.getElementById('c-horario').value }; try{ const r=await fetch(`${API}/api/configuracoes`,{method:'PUT',headers:{'Content-Type':'application/json',...authHeaders()},body:JSON.stringify(data)}); if(r.ok) toast('Configurações salvas!','success'); else throw new Error(); } catch{ toast('Erro ao salvar config','error'); } }
 
-    window.navTo = function(panel) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  function fecharModal(id){ const modal=document.getElementById(id); if(modal){ modal.classList.remove('open'); document.body.style.overflow=''; } }
+  function removePreview(){ uploadFile=null; document.getElementById('preview-wrap').style.display='none'; document.getElementById('upload-input').value=''; }
+  function initUpload(){ const area=document.getElementById('upload-area'); const input=document.getElementById('upload-input'); if(!area)return; area.addEventListener('click',()=>input.click()); area.addEventListener('dragover',e=>{e.preventDefault(); area.style.borderColor='#E8657A';}); area.addEventListener('dragleave',()=>area.style.borderColor=''); area.addEventListener('drop',e=>{ e.preventDefault(); area.style.borderColor=''; const f=e.dataTransfer.files[0]; if(f) processFile(f); }); input.addEventListener('change',()=>{ if(input.files[0]) processFile(input.files[0]); }); }
+  function processFile(f){ const allowedTypes=['image/jpeg','image/jpg','image/png','image/webp','video/mp4','video/webm','video/quicktime']; if(!allowedTypes.includes(f.type)){ toast('Formato inválido. Use imagem (jpg,png,webp) ou vídeo (mp4,webm,mov).','error'); return; } if(f.size>50*1024*1024){ toast('Arquivo >50MB.','error'); return; } uploadFile=f; const reader=new FileReader(); reader.onload=e=>{ const previewDiv=document.getElementById('preview-wrap'); const isVideo=f.type.startsWith('video/'); previewDiv.innerHTML=`<button type="button" class="remove-preview-btn" onclick="removePreview()">✕</button>${isVideo?`<video src="${e.target.result}" controls style="max-height:180px"></video>`:`<img src="${e.target.result}" style="max-height:180px">`}`; previewDiv.style.display='block'; }; reader.readAsDataURL(f); }
 
-      const panelEl = document.getElementById(`panel-${panel}`);
-      if (panelEl) panelEl.classList.add('active');
-      const navItem = document.querySelector(`.nav-item[data-panel="${panel}"]`);
-      if (navItem) navItem.classList.add('active');
+  function escapeHtml(str){ if(!str) return ''; return str.replace(/[&<>"']/g, function(m){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]; }); }
 
-      const titles = { dashboard: 'Dashboard', produtos: 'Produtos', configuracoes: 'Configurações' };
-      const pageTitle = document.getElementById('page-title');
-      if (pageTitle) pageTitle.textContent = titles[panel] || '';
-
-      const sidebar = document.getElementById('sidebar');
-      if (sidebar && window.innerWidth <= 768) sidebar.classList.remove('open');
-
-      if (panel === 'dashboard') loadDashboard();
-      if (panel === 'produtos') loadProdutos();
-      if (panel === 'configuracoes') loadConfig();
-    };
-
-    async function loadDashboard() {
-      try {
-        const r = await fetch(`${API}/api/stats`, { headers: authHeaders() });
-        if (!r.ok) throw new Error();
-        const data = await r.json();
-        const statTotal = document.getElementById('stat-total');
-        const statAtivos = document.getElementById('stat-ativos');
-        const statInativos = document.getElementById('stat-inativos');
-        if (statTotal) statTotal.textContent = data.total || 0;
-        if (statAtivos) statAtivos.textContent = data.ativos || 0;
-        if (statInativos) statInativos.textContent = data.inativos || 0;
-      } catch {
-        toast('Erro ao carregar estatísticas.', 'error');
-      }
-    }
-
-    async function loadProdutos() {
-      const tbody = document.getElementById('produtos-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = `<tr class="loading-row"><td colspan="6"><div class="spinner"></div><p>Carregando…</p></td></tr>`;
-
-      try {
-        const r = await fetch(`${API}/api/produtos`, { headers: authHeaders() });
-        if (!r.ok) throw new Error();
-        produtos = await r.json();
-        renderTabela();
-      } catch {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--texto-sec)">Erro ao carregar produtos.</td></tr>`;
-        toast('Erro ao carregar produtos.', 'error');
-      }
-    }
-
-    function getIconForCategory(cat = '') {
-      const map = {
-        'brigadeiros': '🍫', 'bolos de pote': '🥤', 'bolos': '🎂',
-        'trufas': '🍬', 'caixas': '📦', 'docinhos': '🍭',
-        'cookies': '🍪', 'tortas': '🥧', 'geral': '🍰'
-      };
-      return map[cat.toLowerCase()] || '🍰';
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>"']/g, function(m) {
-        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m];
-      });
-    }
-
-    function renderTabela() {
-      const tbody = document.getElementById('produtos-tbody');
-      if (!tbody) return;
-
-      if (!produtos.length) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--texto-sec)">Nenhum produto cadastrado.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = produtos.map(p => {
-        const src = p.imagem ? `${API}/uploads/${p.imagem}` : null;
-        const thumbHtml = src
-          ? `<div class="produto-thumb"><img src="${src}" alt="${escapeHtml(p.nome)}" onerror="this.parentElement.innerHTML='${getIconForCategory(p.categoria)}'"></div>`
-          : `<div class="produto-thumb">${getIconForCategory(p.categoria)}</div>`;
-        return `
-          <tr>
-            <td>${thumbHtml}</td>
-            <td><strong>${escapeHtml(p.nome)}</strong></td>
-            <td>${escapeHtml(p.categoria)}</td>
-            <td>R$ ${Number(p.preco).toFixed(2).replace('.', ',')}</td>
-            <td><span class="badge badge-${p.ativo ? 'ativo' : 'inativo'}">${p.ativo ? 'Ativo' : 'Inativo'}</span></td>
-            <td>
-              <div class="actions">
-                <button class="btn btn-sm btn-outline" onclick="abrirEditar(${p.id})">Editar</button>
-                <button class="btn btn-sm ${p.ativo ? 'btn-ghost' : 'btn-success'}" onclick="toggleProduto(${p.id})">${p.ativo ? 'Desativar' : 'Ativar'}</button>
-                <button class="btn btn-sm btn-danger" onclick="confirmarExcluir(${p.id})">Excluir</button>
-              </div>
-            </td>
-          </tr>`;
-      }).join('');
-    }
-
-    function abrirModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function fecharModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    }
-
-    window.abrirNovoProduto = function() {
-      editingId = null;
-      uploadFile = null;
-      const titulo = document.getElementById('modal-produto-titulo');
-      if (titulo) titulo.textContent = 'Novo Produto';
-      const form = document.getElementById('form-produto');
-      if (form) form.reset();
-      const fId = document.getElementById('f-id');
-      if (fId) fId.value = '';
-      const previewWrap = document.getElementById('preview-wrap');
-      if (previewWrap) previewWrap.style.display = 'none';
-      const previewImg = document.getElementById('preview-img');
-      if (previewImg) previewImg.src = '';
-      abrirModal('modal-produto');
-    };
-
-    window.abrirEditar = function(id) {
-      const p = produtos.find(x => x.id === id);
-      if (!p) return;
-      editingId = id;
-      uploadFile = null;
-      const titulo = document.getElementById('modal-produto-titulo');
-      if (titulo) titulo.textContent = 'Editar Produto';
-      const fId = document.getElementById('f-id');
-      if (fId) fId.value = p.id;
-      const fNome = document.getElementById('f-nome');
-      if (fNome) fNome.value = p.nome;
-      const fDescricao = document.getElementById('f-descricao');
-      if (fDescricao) fDescricao.value = p.descricao || '';
-      const fPreco = document.getElementById('f-preco');
-      if (fPreco) fPreco.value = Number(p.preco).toFixed(2);
-      const fCategoria = document.getElementById('f-categoria');
-      if (fCategoria) fCategoria.value = p.categoria;
-      const fAtivo = document.getElementById('f-ativo');
-      if (fAtivo) fAtivo.value = p.ativo;
-
-      const previewWrap = document.getElementById('preview-wrap');
-      const previewImg = document.getElementById('preview-img');
-      if (p.imagem) {
-        previewImg.src = `${API}/uploads/${p.imagem}`;
-        previewWrap.style.display = 'block';
-      } else {
-        previewWrap.style.display = 'none';
-      }
-      abrirModal('modal-produto');
-    };
-
-    async function salvarProduto() {
-      const nome = document.getElementById('f-nome').value.trim();
-      const descricao = document.getElementById('f-descricao').value.trim();
-      const preco = document.getElementById('f-preco').value;
-      const categoria = document.getElementById('f-categoria').value;
-      const ativo = document.getElementById('f-ativo').value;
-
-      if (!nome || !preco) {
-        toast('Nome e preço são obrigatórios.', 'error');
-        return;
-      }
-
-      const fd = new FormData();
-      fd.append('nome', nome);
-      fd.append('descricao', descricao);
-      fd.append('preco', preco);
-      fd.append('categoria', categoria);
-      fd.append('ativo', ativo);
-      if (uploadFile) fd.append('imagem', uploadFile);
-
-      const url = editingId ? `${API}/api/produtos/${editingId}` : `${API}/api/produtos`;
-      const method = editingId ? 'PUT' : 'POST';
-
-      try {
-        const r = await fetch(url, { method, headers: authHeaders(), body: fd });
-        if (!r.ok) {
-          const e = await r.json();
-          throw new Error(e.error || 'Erro');
-        }
-        fecharModal('modal-produto');
-        toast(editingId ? 'Produto atualizado!' : 'Produto criado!', 'success');
-        loadProdutos();
-        loadDashboard();
-      } catch (err) {
-        toast(err.message, 'error');
-      }
-    }
-
-    window.toggleProduto = async function(id) {
-      try {
-        const r = await fetch(`${API}/api/produtos/${id}/toggle`, {
-          method: 'POST',
-          headers: authHeaders()
-        });
-        if (!r.ok) throw new Error();
-        const data = await r.json();
-        const p = produtos.find(x => x.id === id);
-        if (p) p.ativo = data.ativo;
-        renderTabela();
-        loadDashboard();
-        toast(data.ativo ? 'Produto ativado.' : 'Produto desativado.', 'success');
-      } catch {
-        toast('Erro ao atualizar produto.', 'error');
-      }
-    };
-
-    window.confirmarExcluir = function(id) {
-      const p = produtos.find(x => x.id === id);
-      if (!p) {
-        toast('Produto não encontrado.', 'error');
-        return;
-      }
-      deleteTargetId = id;
-      const confirmNome = document.getElementById('confirm-nome');
-      if (confirmNome) confirmNome.textContent = p.nome;
-      abrirModal('modal-confirm');
-    };
-
-    async function excluirConfirmado() {
-      if (!deleteTargetId) return;
-      try {
-        const r = await fetch(`${API}/api/produtos/${deleteTargetId}`, {
-          method: 'DELETE',
-          headers: authHeaders()
-        });
-        if (!r.ok) throw new Error();
-        fecharModal('modal-confirm');
-        toast('Produto excluído.', 'success');
-        loadProdutos();
-        loadDashboard();
-        deleteTargetId = null;
-      } catch {
-        toast('Erro ao excluir produto.', 'error');
-      }
-    }
-
-    function cancelarExclusao() {
-      deleteTargetId = null;
-      fecharModal('modal-confirm');
-    }
-
-    window.removePreview = function() {
-      uploadFile = null;
-      const previewImg = document.getElementById('preview-img');
-      if (previewImg) previewImg.src = '';
-      const previewWrap = document.getElementById('preview-wrap');
-      if (previewWrap) previewWrap.style.display = 'none';
-      const uploadInput = document.getElementById('upload-input');
-      if (uploadInput) uploadInput.value = '';
-    };
-
-    function initUpload() {
-      const area = document.getElementById('upload-area');
-      const input = document.getElementById('upload-input');
-      if (!area) return;
-
-      area.addEventListener('click', () => input.click());
-      area.addEventListener('dragover', e => { e.preventDefault(); area.style.borderColor = '#E8657A'; });
-      area.addEventListener('dragleave', () => area.style.borderColor = '');
-      area.addEventListener('drop', e => {
-        e.preventDefault();
-        area.style.borderColor = '';
-        const f = e.dataTransfer.files[0];
-        if (f) processFile(f);
-      });
-      input.addEventListener('change', () => {
-        if (input.files[0]) processFile(input.files[0]);
-      });
-    }
-
-    function processFile(f) {
-      const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-      if (!allowed.includes(f.type)) {
-        toast('Formato inválido. Use JPG, PNG ou WEBP.', 'error');
-        return;
-      }
-      if (f.size > 10 * 1024 * 1024) {
-        toast('Arquivo muito grande. Máximo 10MB.', 'error');
-        return;
-      }
-      uploadFile = f;
-      const reader = new FileReader();
-      reader.onload = e => {
-        const previewImg = document.getElementById('preview-img');
-        const previewWrap = document.getElementById('preview-wrap');
-        if (previewImg) previewImg.src = e.target.result;
-        if (previewWrap) previewWrap.style.display = 'block';
-      };
-      reader.readAsDataURL(f);
-    }
-
-    async function loadConfig() {
-      try {
-        const r = await fetch(`${API}/api/configuracoes`);
-        const data = await r.json();
-        const cWhatsapp = document.getElementById('c-whatsapp');
-        const cInstagram = document.getElementById('c-instagram');
-        const cEndereco = document.getElementById('c-endereco');
-        const cHorario = document.getElementById('c-horario');
-        if (cWhatsapp) cWhatsapp.value = data.whatsapp || '';
-        if (cInstagram) cInstagram.value = data.instagram || '';
-        if (cEndereco) cEndereco.value = data.endereco || '';
-        if (cHorario) cHorario.value = data.horario_funcionamento || '';
-      } catch {
-        toast('Erro ao carregar configurações.', 'error');
-      }
-    }
-
-    async function salvarConfig() {
-      const data = {
-        whatsapp: document.getElementById('c-whatsapp').value.trim(),
-        instagram: document.getElementById('c-instagram').value.trim(),
-        endereco: document.getElementById('c-endereco').value.trim(),
-        horario_funcionamento: document.getElementById('c-horario').value.trim()
-      };
-      try {
-        const r = await fetch(`${API}/api/configuracoes`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json', ...authHeaders() },
-          body: JSON.stringify(data)
-        });
-        if (!r.ok) throw new Error();
-        toast('Configurações salvas!', 'success');
-      } catch {
-        toast('Erro ao salvar configurações.', 'error');
-      }
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      if (sidebar) sidebar.classList.toggle('open');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const btnLogin = document.getElementById('btn-login');
-      const loginPw = document.getElementById('login-pw');
-      if (btnLogin) btnLogin.addEventListener('click', doLogin);
-      if (loginPw) loginPw.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-
-      document.querySelectorAll('.nav-item[data-panel]').forEach(el => {
-        el.addEventListener('click', () => window.navTo(el.dataset.panel));
-      });
-
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleSidebar);
-
-      const btnLogout = document.getElementById('btn-logout');
-      if (btnLogout) btnLogout.addEventListener('click', doLogout);
-
-      const btnNovoProduto = document.getElementById('btn-novo-produto');
-      const btnSalvarProduto = document.getElementById('btn-salvar-produto');
-      const btnCancelarProduto = document.getElementById('btn-cancelar-produto');
-      const closeModalProduto = document.getElementById('close-modal-produto');
-
-      if (btnNovoProduto) btnNovoProduto.addEventListener('click', () => window.abrirNovoProduto());
-      if (btnSalvarProduto) btnSalvarProduto.addEventListener('click', salvarProduto);
-      if (btnCancelarProduto) btnCancelarProduto.addEventListener('click', () => fecharModal('modal-produto'));
-      if (closeModalProduto) closeModalProduto.addEventListener('click', () => fecharModal('modal-produto'));
-
-      const btnConfirmarExcluir = document.getElementById('btn-confirmar-excluir');
-      const btnCancelarExcluir = document.getElementById('btn-cancelar-excluir');
-      const closeModalConfirm = document.getElementById('close-modal-confirm');
-
-      if (btnConfirmarExcluir) btnConfirmarExcluir.addEventListener('click', excluirConfirmado);
-      if (btnCancelarExcluir) btnCancelarExcluir.addEventListener('click', cancelarExclusao);
-      if (closeModalConfirm) closeModalConfirm.addEventListener('click', cancelarExclusao);
-
-      const btnSalvarConfig = document.getElementById('btn-salvar-config');
-      if (btnSalvarConfig) btnSalvarConfig.addEventListener('click', salvarConfig);
-
-      initUpload();
-
-      document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', e => {
-          if (e.target === overlay) fecharModal(overlay.id);
-        });
-      });
-
-      if (authToken) {
-        showApp();
-      }
-    });
-  })();
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('btn-login')?.addEventListener('click',doLogin);
+    document.getElementById('btn-logout')?.addEventListener('click',doLogout);
+    document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+    document.querySelectorAll('.nav-item[data-panel]').forEach(el=>el.addEventListener('click',()=>navTo(el.dataset.panel)));
+    document.getElementById('btn-novo-produto')?.addEventListener('click',()=>abrirModalProduto());
+    document.getElementById('btn-salvar-produto')?.addEventListener('click',salvarProduto);
+    document.getElementById('btn-cancelar-produto')?.addEventListener('click',()=>fecharModal('modal-produto'));
+    document.getElementById('close-modal-produto')?.addEventListener('click',()=>fecharModal('modal-produto'));
+    document.getElementById('btn-nova-subcategoria')?.addEventListener('click',()=>abrirModalSubcategoria());
+    document.getElementById('btn-salvar-sub')?.addEventListener('click',salvarSubcategoria);
+    document.getElementById('btn-cancelar-sub')?.addEventListener('click',()=>fecharModal('modal-subcategoria'));
+    document.getElementById('close-modal-subcategoria')?.addEventListener('click',()=>fecharModal('modal-subcategoria'));
+    document.getElementById('btn-nova-ocasiao')?.addEventListener('click',()=>abrirModalOcasiao());
+    document.getElementById('btn-salvar-oc')?.addEventListener('click',salvarOcasiao);
+    document.getElementById('btn-cancelar-oc')?.addEventListener('click',()=>fecharModal('modal-ocasiao'));
+    document.getElementById('close-modal-ocasiao')?.addEventListener('click',()=>fecharModal('modal-ocasiao'));
+    document.getElementById('btn-salvar-config')?.addEventListener('click',salvarConfig);
+    initUpload();
+    if(authToken) showApp();
+    else document.getElementById('login-screen').style.display='flex';
+    window.editarSubcategoria = (id)=>{ const s = subcategorias.find(s=>s.id===id); if(s) abrirModalSubcategoria(s); };
+    window.excluirSubcategoria = excluirSubcategoria;
+    window.editarOcasiao = (id)=>{ const o = ocasioes.find(o=>o.id===id); if(o) abrirModalOcasiao(o); };
+    window.excluirOcasiao = excluirOcasiao;
+    window.toggleProduto = toggleProduto;
+    window.excluirProduto = excluirProduto;
+    window.removePreview = removePreview;
+  });
 </script>
 </body>
 </html>
