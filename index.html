@@ -283,6 +283,7 @@
     }
     .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
+    /* Vídeo hero */
     .hero-img-frame {
       aspect-ratio: 4/5;
       border-radius: var(--r-lg);
@@ -337,7 +338,7 @@
       overflow: hidden;
       margin-bottom: 16px;
     }
-    .destaque-img img, .destaque-img video { width: 100%; height: 100%; object-fit: cover; }
+    .destaque-img img { width: 100%; height: 100%; object-fit: cover; }
     .destaque-titulo { font-family: var(--ff-titulo); font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
     .destaque-desc { font-size: 0.85rem; color: var(--texto-sec); line-height: 1.6; }
 
@@ -365,6 +366,7 @@
     }
     .cat-btn:hover, .cat-btn.ativo { border-color: var(--rosa); color: var(--rosa); background: var(--rosa-pale); }
 
+    /* ── CARDS DE PRODUTO ────────────────────────────── */
     .produtos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -388,10 +390,10 @@
       position: relative;
       cursor: pointer;
     }
-    .produto-img img, .produto-img video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-    .produto-card:hover .produto-img img,
-    .produto-card:hover .produto-img video { transform: scale(1.04); }
+    .produto-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .produto-card:hover .produto-img img { transform: scale(1.04); }
 
+    /* Overlay "ver mais" na imagem */
     .produto-img-overlay {
       position: absolute;
       inset: 0;
@@ -487,6 +489,7 @@
       flex-shrink: 0;
     }
     .add-btn:hover { background: var(--rosa-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(232,101,122,0.35); }
+    .add-btn svg { flex-shrink: 0; }
 
     /* ── MODAL PRODUTO ───────────────────────────────── */
     #produto-overlay {
@@ -528,7 +531,7 @@
       border-radius: var(--r-lg) 0 0 var(--r-lg);
       position: relative;
     }
-    .modal-img-side img, .modal-img-side video {
+    .modal-img-side img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -811,6 +814,7 @@
       padding: 14px 0;
       border-bottom: 1px solid var(--borda);
     }
+    .cart-item:last-child { border-bottom: none; }
     .cart-item-img {
       width: 64px; height: 64px;
       border-radius: var(--r-md);
@@ -818,7 +822,7 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    .cart-item-img img, .cart-item-img video { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
     .cart-item-info { flex: 1; min-width: 0; }
     .cart-item-nome { font-weight: 600; margin-bottom: 2px; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .cart-item-preco { font-size: 0.8rem; color: var(--rosa); font-weight: 600; }
@@ -932,25 +936,32 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── RESPONSIVO ──────────────────────────────────── */
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .nav-mobile-right { display: flex; }
       .nav-links, .nav-right-desktop { display: none; }
+
       #floating-cart.tem-itens { display: flex; }
+
       .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
       .hero-sub { margin: 0 auto 32px; }
       .hero-actions { justify-content: center; }
       .hero-image-wrap { order: -1; max-width: 320px; margin: 0 auto; }
       .hero-badge { left: 8px; bottom: 8px; }
+
       .destaques-grid { grid-template-columns: 1fr; }
       .sobre-inner { grid-template-columns: 1fr; }
       .contato-inner { grid-template-columns: 1fr; }
       .sobre-valores { grid-template-columns: 1fr; }
       .produtos-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+
       .produto-body { padding: 12px; }
       .produto-nome { font-size: 0.95rem; }
       .add-btn { padding: 9px 12px; font-size: 0.78rem; }
       .produto-preco { font-size: 1.2rem; }
+
+      /* Modal mobile — coluna única */
       #produto-modal {
         grid-template-columns: 1fr;
         max-height: 92vh;
@@ -962,9 +973,15 @@
       }
       .modal-content-side { padding: 24px 20px; }
       .modal-nome { font-size: 1.4rem; }
+
       .footer-inner { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
+
       #toast-container { bottom: 90px; }
+    }
+
+    @media (max-width: 400px) {
+      .produtos-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -976,12 +993,14 @@
     <a href="/" class="nav-logo">
       <img src="/static/img/logo-pequena.png" alt="Tão Doce Quanto Ella" class="nav-logo-img" onerror="this.style.display='none'">
     </a>
+
     <div class="nav-links">
       <a href="#destaques">Destaques</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#sobre">Sobre</a>
       <a href="#contato">Contato</a>
     </div>
+
     <div class="nav-right-desktop">
       <button id="cart-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -992,6 +1011,7 @@
         <span id="cart-count">0</span>
       </button>
     </div>
+
     <div class="nav-mobile-right">
       <button id="cart-btn-nav-mobile" aria-label="Carrinho">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1007,6 +1027,7 @@
   </div>
 </nav>
 
+<!-- Menu mobile -->
 <div id="mobile-nav">
   <a href="#destaques">⭐ Destaques</a>
   <a href="#catalogo">🛍️ Catálogo</a>
@@ -1037,7 +1058,16 @@
     </div>
     <div class="hero-image-wrap">
       <div class="hero-img-frame">
-        <video src="/static/img/hero-doces.mp4" autoplay loop muted playsinline disablepictureinpicture disableremoteplayback preload="auto"></video>
+        <video
+          src="/static/img/hero-doces.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          disablepictureinpicture
+          disableremoteplayback
+          preload="auto"
+        ></video>
       </div>
       <div class="hero-badge">
         <div class="hero-badge-label">Delivery</div>
@@ -1055,8 +1085,23 @@
       <h2 class="section-title">Queridinhos da casa</h2>
       <p>Os favoritos das nossas clientes, feitos com ingredientes premium e muito amor.</p>
     </div>
-    <div class="destaques-grid" id="destaques-grid">
-      <!-- Carregado via JS -->
+    <div class="destaques-grid">
+      <div class="destaque-card">
+        <div class="destaque-img"><img src="/static/img/destaque-cookies.jpg" alt="Cookies" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Cookies'"></div>
+        <div class="destaque-titulo">Cookies</div>
+        <div class="destaque-desc">Cookies artesanais com gotas de chocolate belga, crocantes por fora e macios por dentro.</div>
+      </div>
+      <div class="destaque-card">
+        <div class="destaque-img"><img src="/static/img/destaque-chocolate-quente.jpg" alt="Chocolate quente cremoso" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Chocolate+Quente'"></div>
+        <div class="destaque-titulo">Chocolate quente cremoso</div>
+        <div class="destaque-desc">Chocolate quente aveludado, feito com chocolate belga derretido e leite cremoso.</div>
+      </div>
+      <div class="destaque-card">
+        <div class="destaque-img"><img src="/static/img/destaque-brownie.jpg" alt="Brownie" onerror="this.src='https://placehold.co/400x400/FFB8C5/E8657A?text=Brownie'"></div>
+        <div class="destaque-titulo">Brownie</div>
+        <div class="destaque-desc">Casquinha brilhante por fora e interior denso e chocolatudo, com sabor caseiro que conquista na primeira mordida.
+</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1094,7 +1139,7 @@
         <p>Cada doce que preparamos carrega um pedacinho de carinho e dedicação. Sou Manoella e transformo ingredientes selecionados em momentos doces e inesquecíveis.</p>
         <p>Minha paixão por confeitaria começou em casa, testando receitas e criando sabores que conquistam. Hoje, levo todo esse amor até você através do delivery.</p>
         <div class="sobre-valores">
-          <div class="valor-item"><div class="valor-icon">Ingredientes Premium</div><div class="valor-titulo">Qualidade</div><div class="valor-desc">Ingredientes selecionados com cuidado.</div></div>
+          <div class="valor-item"><div class="valor-icon">Ingredientes Premium</div><div class="valor-titulo">Qualidade</div><div class="valor-desc">Chocolate belga e ingredientes selecionados.</div></div>
           <div class="valor-item"><div class="valor-icon">Feito com Amor</div><div class="valor-titulo">Carinho</div><div class="valor-desc">Cada doce preparado com dedicação.</div></div>
           <div class="valor-item"><div class="valor-icon">Delivery</div><div class="valor-titulo">Praticidade</div><div class="valor-desc">Entregamos onde você estiver.</div></div>
           <div class="valor-item"><div class="valor-icon">Embalagem</div><div class="valor-titulo">Apresentação</div><div class="valor-desc">Embalagem cuidadosa para presentear.</div></div>
@@ -1203,7 +1248,7 @@
 <div id="produto-overlay">
   <div id="produto-modal" role="dialog" aria-modal="true" aria-labelledby="modal-nome-titulo">
     <div class="modal-img-side" id="modal-img-side">
-      <div id="modal-media-container"></div>
+      <img id="modal-img" src="" alt="">
       <div class="modal-img-badge" id="modal-img-badge"></div>
     </div>
     <div class="modal-content-side">
@@ -1239,9 +1284,9 @@
   let produtos = [];
   let carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
   let categoriaAtiva = 'todos';
-  let produtoAtualModal = null;
   const WHATSAPP_NUMERO = '5511970388250';
 
+  // ── TOAST ──────────────────────────────────────────
   function showToast(msg, type) {
     const container = document.getElementById('toast-container');
     const el = document.createElement('div');
@@ -1251,20 +1296,27 @@
     setTimeout(() => el.remove(), 3000);
   }
 
+  // ── CARRINHO CONTADOR ──────────────────────────────
   function atualizarCarrinhoContador() {
     const total = carrinho.reduce((s, i) => s + i.quantidade, 0);
+
     document.getElementById('cart-count').textContent = total;
+
     const navMobileCount = document.getElementById('cart-count-nav-mobile');
     navMobileCount.textContent = total;
     navMobileCount.classList.toggle('hidden', total === 0);
+
     const floatingCart = document.getElementById('floating-cart');
     document.getElementById('floating-cart-count').textContent = total;
     floatingCart.classList.toggle('tem-itens', total > 0);
+
     const headCount = document.getElementById('cart-head-count');
     if (headCount) headCount.textContent = `${total} ${total === 1 ? 'item' : 'itens'}`;
+
     localStorage.setItem('carrinho', JSON.stringify(carrinho));
   }
 
+  // ── CARRINHO MODAL ─────────────────────────────────
   function atualizarCarrinhoModal() {
     const container = document.getElementById('cart-items');
     const totalSpan = document.getElementById('cart-total');
@@ -1278,12 +1330,9 @@
     for (let item of carrinho) {
       const subtotal = item.preco * item.quantidade;
       total += subtotal;
-      const mediaHtml = item.media_type === 'video' 
-        ? `<video src="${API}/uploads/${item.media_path}" autoplay muted loop playsinline></video>`
-        : `<img src="${API}/uploads/${item.media_path}" onerror="this.src='/static/img/placeholder.jpg'">`;
       html += `
         <div class="cart-item">
-          <div class="cart-item-img">${mediaHtml}</div>
+          <div class="cart-item-img"><img src="${item.imagem || '/static/img/placeholder.jpg'}" onerror="this.src='/static/img/placeholder.jpg'"></div>
           <div class="cart-item-info">
             <div class="cart-item-nome">${item.nome}</div>
             <div class="cart-item-preco">R$ ${item.preco.toFixed(2).replace('.',',')}</div>
@@ -1322,14 +1371,7 @@
   window.adicionarAoCarrinho = function(produto) {
     const existente = carrinho.find(i => i.id === produto.id);
     if (existente) existente.quantidade++;
-    else carrinho.push({ 
-      id: produto.id, 
-      nome: produto.nome, 
-      preco: produto.preco, 
-      media_path: produto.media_path,
-      media_type: produto.media_type,
-      quantidade: 1 
-    });
+    else carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, imagem: produto.imagem_url, quantidade: 1 });
     atualizarCarrinhoContador();
     atualizarCarrinhoModal();
     showToast(`${produto.nome} adicionado! 🍬`, 'success');
@@ -1348,20 +1390,31 @@
     document.body.style.overflow = '';
   }
 
+  // ── MODAL PRODUTO ──────────────────────────────────
+  let produtoAtualModal = null;
+
   window.abrirModalProduto = function(produto) {
     produtoAtualModal = produto;
-    const mediaUrl = produto.media_path ? `${API}/uploads/${produto.media_path}` : '/static/img/placeholder.jpg';
-    const mediaContainer = document.getElementById('modal-media-container');
-    if (produto.media_type === 'video') {
-      mediaContainer.innerHTML = `<video src="${mediaUrl}" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
-    } else {
-      mediaContainer.innerHTML = `<img src="${mediaUrl}" alt="${produto.nome}" style="width:100%;height:100%;object-fit:cover;">`;
-    }
-    document.getElementById('modal-img-badge').textContent = produto.categoria_nome || '';
-    document.getElementById('modal-cat').textContent = produto.categoria_nome || '';
+
+    // Monta a URL da imagem da mesma forma que renderizarProdutos
+    const imgUrl = produto.imagem
+      ? `${API}/uploads/${produto.imagem}`
+      : (produto.imagem_url || '/static/img/placeholder.jpg');
+
+    const modalImg = document.getElementById('modal-img');
+    modalImg.src = imgUrl;
+    modalImg.alt = produto.nome;
+    modalImg.onerror = function() { this.src = '/static/img/placeholder.jpg'; };
+
+    document.getElementById('modal-img-badge').textContent = produto.categoria || '';
+    document.getElementById('modal-cat').textContent = produto.categoria || '';
     document.getElementById('modal-nome-titulo').textContent = produto.nome;
     document.getElementById('modal-desc').textContent = produto.descricao || 'Sem descrição disponível.';
     document.getElementById('modal-preco').innerHTML = `<span>R$</span>${produto.preco.toFixed(2).replace('.',',')}`;
+
+    // Guarda imgUrl resolvida para uso nos botões do modal
+    produtoAtualModal._imgUrl = imgUrl;
+
     document.getElementById('produto-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   };
@@ -1372,151 +1425,26 @@
     produtoAtualModal = null;
   }
 
-  async function carregarProdutos() {
-    const grid = document.getElementById('produtos-grid');
-    const destaquesGrid = document.getElementById('destaques-grid');
-    try {
-      const r = await fetch(`${API}/api/produtos`);
-      produtos = await r.json();
-      renderizarFiltros();
-      renderizarProdutos();
-      renderizarDestaques();
-    } catch {
-      grid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Erro ao carregar produtos. Tente novamente.</div>';
-    }
-  }
-
-  function renderizarDestaques() {
-    const destaquesGrid = document.getElementById('destaques-grid');
-    const destaques = produtos.filter(p => p.ativo === 1).slice(0, 3);
-    if (!destaquesGrid) return;
-    if (destaques.length === 0) {
-      destaquesGrid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Em breve novidades!</div>';
-      return;
-    }
-    destaquesGrid.innerHTML = destaques.map(p => {
-      const mediaUrl = p.media_path ? `${API}/uploads/${p.media_path}` : '/static/img/placeholder.jpg';
-      const mediaHtml = p.media_type === 'video' 
-        ? `<video src="${mediaUrl}" autoplay muted loop playsinline></video>`
-        : `<img src="${mediaUrl}" alt="${p.nome}" loading="lazy">`;
-      return `
-        <div class="destaque-card">
-          <div class="destaque-img">${mediaHtml}</div>
-          <div class="destaque-titulo">${p.nome}</div>
-          <div class="destaque-desc">${p.descricao || 'Delicioso produto artesanal.'}</div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderizarFiltros() {
-    const container = document.getElementById('categorias-filtro');
-    if (!container) return;
-    const cats = ['todos', ...new Set(produtos.filter(p => p.ativo === 1).map(p => p.categoria_nome))];
-    container.innerHTML = '';
-    for (let cat of cats) {
-      const btn = document.createElement('button');
-      btn.className = `cat-btn ${cat === 'todos' ? 'ativo' : ''}`;
-      btn.textContent = cat === 'todos' ? 'Todos' : cat;
-      btn.onclick = () => {
-        categoriaAtiva = cat;
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('ativo'));
-        btn.classList.add('ativo');
-        renderizarProdutos();
-      };
-      container.appendChild(btn);
-    }
-  }
-
-  function renderizarProdutos() {
-    const grid = document.getElementById('produtos-grid');
-    let filtered = produtos.filter(p => p.ativo === 1);
-    if (categoriaAtiva !== 'todos') filtered = filtered.filter(p => p.categoria_nome === categoriaAtiva);
-    if (!filtered.length) {
-      grid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Nenhum produto encontrado.</div>';
-      return;
-    }
-    let html = '';
-    for (let p of filtered) {
-      const mediaUrl = p.media_path ? `${API}/uploads/${p.media_path}` : '/static/img/placeholder.jpg';
-      const mediaHtml = p.media_type === 'video' 
-        ? `<video src="${mediaUrl}" autoplay muted loop playsinline></video>`
-        : `<img src="${mediaUrl}" alt="${p.nome}" loading="lazy" onerror="this.src='/static/img/placeholder.jpg'">`;
-      html += `
-        <div class="produto-card">
-          <div class="produto-img produto-abre-modal" data-id="${p.id}" title="Ver detalhes">
-            ${mediaHtml}
-            <div class="produto-img-overlay"><span>Ver detalhes</span></div>
-          </div>
-          <div class="produto-body">
-            <div class="produto-cat">${p.categoria_nome || ''}</div>
-            <h3 class="produto-nome produto-abre-modal" data-id="${p.id}">${p.nome}</h3>
-            <p class="produto-desc">${p.descricao || ''}</p>
-            <div class="produto-footer">
-              <div class="produto-preco-wrap">
-                <span class="produto-preco-label">Preço</span>
-                <div class="produto-preco"><span>R$</span>${p.preco.toFixed(2).replace('.',',')}</div>
-              </div>
-              <button class="add-btn produto-add-btn" data-id="${p.id}">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Adicionar
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-    grid.innerHTML = html;
-
-    grid.querySelectorAll('.produto-abre-modal').forEach(el => {
-      el.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const id = parseInt(this.dataset.id);
-        const p = produtos.find(x => x.id === id);
-        if (p) abrirModalProduto(p);
-      });
-    });
-
-    grid.querySelectorAll('.produto-add-btn').forEach(el => {
-      el.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const id = parseInt(this.dataset.id);
-        const p = produtos.find(x => x.id === id);
-        if (!p) return;
-        adicionarAoCarrinho(p);
-      });
-    });
-  }
-
-  async function carregarConfiguracoes() {
-    try {
-      const r = await fetch(`${API}/api/configuracoes`);
-      const config = await r.json();
-      if (config.whatsapp) document.getElementById('info-whatsapp').textContent = config.whatsapp;
-      if (config.instagram) document.getElementById('info-instagram').textContent = config.instagram;
-      if (config.endereco) document.getElementById('info-endereco').textContent = config.endereco;
-      if (config.horario_funcionamento) document.getElementById('info-horario').textContent = config.horario_funcionamento;
-    } catch(e) {}
-  }
-
-  document.getElementById('modal-close')?.addEventListener('click', fecharModalProduto);
-  document.getElementById('produto-overlay')?.addEventListener('click', function(e) {
+  document.getElementById('modal-close').addEventListener('click', fecharModalProduto);
+  document.getElementById('produto-overlay').addEventListener('click', function(e) {
     if (e.target === this) fecharModalProduto();
   });
 
-  document.getElementById('modal-add-btn')?.addEventListener('click', function() {
+  document.getElementById('modal-add-btn').addEventListener('click', function() {
     if (!produtoAtualModal) return;
-    adicionarAoCarrinho(produtoAtualModal);
+    const p = produtoAtualModal;
+    adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: p._imgUrl || '/static/img/placeholder.jpg' });
     fecharModalProduto();
   });
 
-  document.getElementById('modal-wpp-btn')?.addEventListener('click', function() {
+  document.getElementById('modal-wpp-btn').addEventListener('click', function() {
     if (!produtoAtualModal) return;
     const p = produtoAtualModal;
     const msg = `Olá! Tenho interesse no produto:%0A%0A*${p.nome}*%0APreço: R$ ${p.preco.toFixed(2).replace('.',',')}%0A%0AGostaria de fazer um pedido! 🍬`;
     window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${msg}`, '_blank');
   });
 
+  // Fechar modal com ESC
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       fecharModalProduto();
@@ -1524,6 +1452,7 @@
     }
   });
 
+  // ── PEDIDO WHATSAPP ────────────────────────────────
   document.getElementById('btn-pedido')?.addEventListener('click', function() {
     const nome = document.getElementById('cliente-nome').value.trim();
     const obs = document.getElementById('cliente-obs').value.trim();
@@ -1549,6 +1478,97 @@
     showToast('Pedido enviado! Redirecionando ao WhatsApp.', 'success');
   });
 
+  // ── CARREGAR PRODUTOS ──────────────────────────────
+  async function carregarProdutos() {
+    const grid = document.getElementById('produtos-grid');
+    try {
+      const r = await fetch(`${API}/api/produtos`);
+      produtos = await r.json();
+      renderizarFiltros();
+      renderizarProdutos();
+    } catch {
+      grid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Erro ao carregar produtos. Tente novamente.</div>';
+    }
+  }
+
+  function renderizarFiltros() {
+    const container = document.getElementById('categorias-filtro');
+    if (!container) return;
+    const cats = ['todos', ...new Set(produtos.filter(p => p.ativo === 1).map(p => p.categoria))];
+    container.innerHTML = '';
+    for (let cat of cats) {
+      const btn = document.createElement('button');
+      btn.className = `cat-btn ${cat === 'todos' ? 'ativo' : ''}`;
+      btn.textContent = cat === 'todos' ? 'Todos' : cat.charAt(0).toUpperCase() + cat.slice(1);
+      btn.onclick = () => {
+        categoriaAtiva = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('ativo'));
+        btn.classList.add('ativo');
+        renderizarProdutos();
+      };
+      container.appendChild(btn);
+    }
+  }
+
+  function renderizarProdutos() {
+    const grid = document.getElementById('produtos-grid');
+    let filtered = produtos.filter(p => p.ativo === 1);
+    if (categoriaAtiva !== 'todos') filtered = filtered.filter(p => p.categoria === categoriaAtiva);
+    if (!filtered.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:60px;grid-column:1/-1">Nenhum produto encontrado.</div>';
+      return;
+    }
+    let html = '';
+    for (let p of filtered) {
+      const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+      html += `
+        <div class="produto-card">
+          <div class="produto-img produto-abre-modal" data-id="${p.id}" title="Ver detalhes">
+            <img src="${imgUrl}" alt="${p.nome}" loading="lazy" onerror="this.src='/static/img/placeholder.jpg'">
+            <div class="produto-img-overlay"><span>Ver detalhes</span></div>
+          </div>
+          <div class="produto-body">
+            <div class="produto-cat">${p.categoria}</div>
+            <h3 class="produto-nome produto-abre-modal" data-id="${p.id}">${p.nome}</h3>
+            <p class="produto-desc">${p.descricao || ''}</p>
+            <div class="produto-footer">
+              <div class="produto-preco-wrap">
+                <span class="produto-preco-label">Preço</span>
+                <div class="produto-preco"><span>R$</span>${p.preco.toFixed(2).replace('.',',')}</div>
+              </div>
+              <button class="add-btn produto-add-btn" data-id="${p.id}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Adicionar
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    grid.innerHTML = html;
+
+    // Delegação de eventos — sem onclick inline
+    grid.querySelectorAll('.produto-abre-modal').forEach(el => {
+      el.addEventListener('click', function() {
+        const id = parseInt(this.dataset.id);
+        const p = produtos.find(x => x.id === id);
+        if (p) abrirModalProduto(p);
+      });
+    });
+
+    grid.querySelectorAll('.produto-add-btn').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = parseInt(this.dataset.id);
+        const p = produtos.find(x => x.id === id);
+        if (!p) return;
+        const imgUrl = p.imagem ? `${API}/uploads/${p.imagem}` : '/static/img/placeholder.jpg';
+        adicionarAoCarrinho({ id: p.id, nome: p.nome, preco: p.preco, imagem_url: imgUrl });
+      });
+    });
+  }
+
+  // ── EVENTOS ────────────────────────────────────────
   document.getElementById('cart-close')?.addEventListener('click', closeCart);
   document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
   document.getElementById('cart-btn')?.addEventListener('click', openCart);
@@ -1575,9 +1595,10 @@
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  document.getElementById('copyright-year').textContent = `© ${new Date().getFullYear()} Tão Doce Quanto Ella. Todos os direitos reservados. Delivery WhatsApp`;
+  document.getElementById('copyright-year').textContent =
+    `© ${new Date().getFullYear()} Tão Doce Quanto Ella. Todos os direitos reservados. Delivery WhatsApp`;
 
-  carregarConfiguracoes();
+  // ── INIT ───────────────────────────────────────────
   carregarProdutos();
   atualizarCarrinhoContador();
 </script>
